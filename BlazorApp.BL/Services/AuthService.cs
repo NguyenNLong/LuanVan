@@ -13,7 +13,6 @@ namespace BlazorApp.BL.Services
         Task<UserModel> GetUserByLogin(string username, string password);
         Task AddRefreshTokenModel(RefreshTokenModel refreshTokenModel);
         Task<RefreshTokenModel> GetRefreshTokenModel(string refreshToken);
-        Task<UserModel> CreateUser(string username, string password, List<int> roleIds);
     }
     public class AuthService(IAuthRepository authRepository) : IAuthService
     {
@@ -29,11 +28,6 @@ namespace BlazorApp.BL.Services
         public Task<RefreshTokenModel> GetRefreshTokenModel(string refreshToken)
         {
             return authRepository.GetRefreshTokenModel(refreshToken);
-        }
-
-        public Task<UserModel> CreateUser(string username, string password, List<int> roleIds)
-        {
-            return authRepository.CreateUser(username, password, roleIds);
         }
     }
 }
