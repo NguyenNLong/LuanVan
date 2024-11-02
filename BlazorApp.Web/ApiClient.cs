@@ -1,5 +1,6 @@
-using BlazorApp.Model.Models;
+using BlazorApp.Model.Models.Others;
 using BlazorApp.Web.Authentication;
+using Grpc.Core;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using Newtonsoft.Json;
@@ -61,6 +62,13 @@ public class ApiClient(HttpClient httpClient, ProtectedLocalStorage localStorage
         {
             return JsonConvert.DeserializeObject<T1>(await res.Content.ReadAsStringAsync());
         }
+        else
+        {
+            // Ném ra ngo?i l? v?i thông tin l?i t? API
+            var errorContent = await res.Content.ReadAsStringAsync();
+            var errorMessage = JsonConvert.DeserializeObject<Dictionary<string, string>>(errorContent)?["message"] ?? "Có l?i x?y ra.";
+            throw new ApiException(errorMessage, (int)res.StatusCode);
+        }
         return default;
     }
     public async Task<T> DeleteAsync<T>(string path)
@@ -68,5 +76,20 @@ public class ApiClient(HttpClient httpClient, ProtectedLocalStorage localStorage
         await SetAuthorizeHeader();
         return await httpClient.DeleteFromJsonAsync<T>(path);
     }
+	public async Task<T1> PatchAsync<T1>(string path, object patchModel)
+	{
+		await SetAuthorizeHeader();
+		var res = await httpClient.PatchAsJsonAsync(path, patchModel);
+
+		if (res != null && res.IsSuccessStatusCode)
+		{
+			return JsonConvert.DeserializeObject<T1>(await res.Content.ReadAsStringAsync());
+		}
+
+		// Ném ra ngo?i l? v?i thông tin l?i t? API
+		var errorContent = await res.Content.ReadAsStringAsync();
+		var errorMessage = JsonConvert.DeserializeObject<Dictionary<string, string>>(errorContent)?["message"] ?? "Có l?i x?y ra.";
+		throw new ApiException(errorMessage, (int)res.StatusCode);
+	}
 }
 

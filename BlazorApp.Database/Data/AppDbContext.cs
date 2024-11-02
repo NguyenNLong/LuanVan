@@ -19,5 +19,6 @@ namespace BlazorApp.Database.Data
         public DbSet<RefreshTokenModel> RefreshTokens { get; set; }
         public DbSet<UserRoleModel> UserRoles { get; set; }
         public DbSet<RoleModel> Roles { get; set; }
+        public DbSet<TeachersModel> Teachers { get; set; }
     }
 }

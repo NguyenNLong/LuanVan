@@ -1,5 +1,5 @@
 ﻿using BlazorApp.Model.Entities;
-using BlazorApp.Model.Models;
+using BlazorApp.Model.Models.Others;
 using BlazorApp.Web.Components.BaseComponents;
 using Blazored.Toast.Services;
 using Microsoft.AspNetCore.Components;

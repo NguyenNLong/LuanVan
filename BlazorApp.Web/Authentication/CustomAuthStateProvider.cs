@@ -1,4 +1,4 @@
-﻿using BlazorApp.Model.Models;
+﻿using BlazorApp.Model.Models.Others;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using System.IdentityModel.Tokens.Jwt;

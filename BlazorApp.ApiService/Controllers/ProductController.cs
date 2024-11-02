@@ -1,12 +1,12 @@
 ﻿using BlazorApp.BL.Services;
 using BlazorApp.Model.Entities;
-using BlazorApp.Model.Models;
+using BlazorApp.Model.Models.Others;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlazorApp.ApiService.Controllers
 {
-    [Authorize(Roles ="Admin,User")]
+
     [Route("api/[controller]")]
     [ApiController]
     public class ProductController(IProductService productService) : ControllerBase
