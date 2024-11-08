@@ -13,6 +13,7 @@ namespace BlazorApp.BL.Repositories
     {
         Task<List<TeachersModel>> GetTeachers();                  // Lấy danh sách giáo viên
         Task<TeachersModel> GetTeacher(int id);                   // Lấy giáo viên theo ID
+        Task<TeachersModel> GetTeacherByUserID(int userid);       // Lấy giáo viên theo UserID
         Task UpdateTeacher(TeachersModel teacherModel);           // Cập nhật giáo viên
         Task<TeachersModel> CreateTeacher(TeachersModel teacherModel); // Tạo giáo viên mới
         Task<bool> TeacherExists(int id);                        // Kiểm tra giáo viên có tồn tại không
@@ -33,6 +34,12 @@ namespace BlazorApp.BL.Repositories
         public Task<TeachersModel> GetTeacher(int id)
         {
             return dbContext.Teachers.FirstOrDefaultAsync(t => t.ID == id);
+        }
+
+        // Phương thức lấy giáo viên theo UserID
+        public Task<TeachersModel> GetTeacherByUserID(int userid)
+        {
+            return dbContext.Teachers.FirstOrDefaultAsync(t => t.UserID == userid);
         }
 
         // Phương thức tạo mới giáo viên
@@ -66,5 +73,7 @@ namespace BlazorApp.BL.Repositories
                 await dbContext.SaveChangesAsync();
             }
         }
+
+        
     }
 }

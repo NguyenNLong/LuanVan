@@ -6,27 +6,33 @@ using System.Threading.Tasks;
 
 namespace BlazorApp.Model.Entities
 {  
-    public enum Education
-        {
+    public enum EducationStatus
+    {
             Master = 1,
             bachelor = 2,
         }
-    public enum Sex
+    public enum SexStatus
     {
         Male = 1,
         Female = 2,
     }
-    public class TeachersModel : UserModel
+    public class TeachersModel 
     {
         public int ID { get; set; }
         public string TeacherName { get; set; }
-        public Sex Sex { get; set; }
-        public Education Education { get; set; }
+        public SexStatus Sex { get; set; }
+        public EducationStatus Education { get; set; }
         public DateOnly BirthDay { get; set; }
         public string Address { get; set; }
 
+
+        public int UserID { get; set; }
+        public int TeachingAssignmentID { get; set; }
+        public int ClassID { get; set; }
+
+
         public virtual ICollection<TeachingAssignmentModel> TeachingAssignments { get; set; } = new List<TeachingAssignmentModel>();
 
-        /*public virtual ICollection<ClassModel> Classes { get; set; }= new List<ClassModel>();*/
+        public virtual ICollection<ClassModel> Classes { get; set; } = new List<ClassModel>();
     }
 }

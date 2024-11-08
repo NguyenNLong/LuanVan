@@ -13,6 +13,7 @@ namespace BlazorApp.BL.Services
     {
         Task<List<TeachersModel>> GetTeachers();                  // Lấy danh sách giáo viên
         Task<TeachersModel> GetTeacher(int id);                   // Lấy giáo viên theo ID
+        Task<TeachersModel> GetTeacherByUserID(int userid);
         Task UpdateTeacher(TeachersModel teacherModel);           // Cập nhật giáo viên
         Task<TeachersModel> CreateTeacher(TeachersModel teacherModel); // Tạo giáo viên mới
         Task<bool> TeacherExists(int id);                        // Kiểm tra giáo viên có tồn tại không
@@ -41,6 +42,12 @@ namespace BlazorApp.BL.Services
             return _teacherRepository.GetTeacher(id);
         }
 
+        // Phương thức lấy giáo viên theo UserID
+        public Task<TeachersModel> GetTeacherByUserID(int userid)
+        {
+            return _teacherRepository.GetTeacherByUserID(userid);
+        }
+
         // Phương thức lấy danh sách tất cả giáo viên
         public Task<List<TeachersModel>> GetTeachers()
         {
@@ -64,5 +71,6 @@ namespace BlazorApp.BL.Services
         {
             return _teacherRepository.DeleteTeacher(id);
         }
+
     }
 }

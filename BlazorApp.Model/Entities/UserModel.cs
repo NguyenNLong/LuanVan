@@ -16,6 +16,8 @@ namespace BlazorApp.Model.Entities
         public string Username { get; set; }
         public string Password { get; set; }
         public bool IsLock { get; set; } = false;
+
+
         public virtual ICollection<UserRoleModel> UserRoles { get; set; }
     }
 }

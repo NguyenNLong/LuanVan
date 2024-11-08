@@ -1,3 +1,4 @@
+using BlazorApp.Model.Models.User;
 using BlazorApp.Web;
 using BlazorApp.Web.Authentication;
 using BlazorApp.Web.Components;
@@ -19,6 +20,7 @@ builder.Services.AddCascadingAuthenticationState();
 
 builder.Services.AddOutputCache();
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthStateProvider>();
+builder.Services.AddScoped<List<RoleModelBlazor>>();
 
 builder.Services.AddHttpClient<ApiClient>(client =>
     {

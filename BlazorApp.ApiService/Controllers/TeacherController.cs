@@ -34,6 +34,17 @@ namespace BlazorApp.ApiService.Controllers
             }
             return Ok(new BaseResponseModel { Success = true, Data = teacherModel });
         }
+        [HttpGet("getbyuserid/{userid}")]
+        public async Task<ActionResult<BaseResponseModel>> GetTeacherByUserID(int userid)
+        {
+            var teacherModel = await teacherService.GetTeacherByUserID(userid);
+
+            if (teacherModel == null)
+            {
+                return Ok(new BaseResponseModel { Success = false, ErrorMessage = "Không tìm thấy giáo viên" });
+            }
+            return Ok(new BaseResponseModel { Success = true, Data = teacherModel });
+        }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateTeacher(int id, TeachersModel teacherModel)

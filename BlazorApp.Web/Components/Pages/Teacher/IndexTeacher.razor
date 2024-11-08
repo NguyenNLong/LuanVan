@@ -1,0 +1,56 @@
+﻿@page "/teacher"
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
+
+<h3>IndexProduct</h3>
+
+@if (TeacherModels == null)
+{
+    <p>Loading ...</p>
+}
+else
+{
+    <a class="btn btn-primary" href="/teacher/create">Create</a>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>TeacherName</th>
+                <th>Sex</th>
+                <th>Education</th>
+                <th>BirthDay</th>
+                <th>Address</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var teacher in TeacherModels)
+            {
+                <tr>
+                    <td>@teacher.TeacherName</td>
+                    <td>@teacher.Sex</td>
+                    <td>@teacher.Education</td>
+                    <td>@teacher.BirthDay</td>
+                    <td>@teacher.Address</td>
+                    <td>
+                        <a class="btn btn-secondary" href="/teacher/update/@teacher.ID">Update</a>
+                        <AuthorizeView Roles="Admin">
+                            <Authorized>
+                                <button class="btn btn-danger" @onclick="()=> { DeleteID = teacher.ID; Modal.Open();}">Delete</button>
+                            </Authorized>
+                        </AuthorizeView>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <AppModal @ref="Modal">
+        <Title>Notification</Title>
+        <Body>
+            Do you sure want to delete this product?
+        </Body>
+        <Footer>
+            <button type="button" class="btn btn-primary" style="width:80px" @onclick="HandleDelete">Yes</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="() => Modal.Close()">Cancel</button>
+        </Footer>
+    </AppModal>
+}
