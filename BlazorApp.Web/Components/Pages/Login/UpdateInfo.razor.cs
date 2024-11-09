@@ -104,22 +104,24 @@ namespace BlazorApp.Web.Components.Pages.Login
 			if (User.UserRoles.Any(ur => ur.Role.RoleName == "Teacher"))
 			{
 				var res = await ApiClient.GetFromJsonAsync<BaseResponseModel>($"/api/Teacher/getbyuserid/{User.ID}");
-				if (res == null && !res.Success)
+				if (res == null || !res.Success)
 				{
-					var TeacherRes = await ApiClient.PostAsync<BaseResponseModel, TeachersModel>($"/api/Teacher/getbyuserid/{User.ID}", Teacher);
-					if (TeacherRes != null && res.Success)
+					Teacher.UserID = User.ID;
+
+					var TeacherRes = await ApiClient.PostAsync<BaseResponseModel, TeachersModel>($"/api/Teacher", Teacher);
+					if (TeacherRes != null && TeacherRes.Success)
 					{
 						ToastService.ShowSuccess("Cập nhật thông tin thành công!");
-						NavigationManager.NavigateTo("/");
+						NavigationManager.NavigateTo("/updateinfo");
 					}
 				}
 				else if (res != null && res.Success)
 				{
-					var TeacherRes = await ApiClient.PutAsync<BaseResponseModel, TeachersModel>($"/api/Teacher/getbyuserid/{User.ID}", Teacher);
-					if (TeacherRes != null && res.Success)
+					var TeacherRes = await ApiClient.PutAsync<BaseResponseModel, TeachersModel>($"/api/Teacher/{Teacher.ID}", Teacher);
+					if (TeacherRes != null && TeacherRes.Success)
 					{
 						ToastService.ShowSuccess("Cập nhật thông tin thành công!");
-						NavigationManager.NavigateTo("/");
+						NavigationManager.NavigateTo("/updateinfo");
 					}
 				}
 
@@ -127,45 +129,48 @@ namespace BlazorApp.Web.Components.Pages.Login
 			else if (User.UserRoles.Any(ur => ur.Role.RoleName == "Student"))
 			{
 				var res = await ApiClient.GetFromJsonAsync<BaseResponseModel>($"/api/Student/getbyuserid/{User.ID}");
-				if (res == null && !res.Success)
+				if (res == null || !res.Success)
 				{
-					var StudentRes = await ApiClient.PostAsync<BaseResponseModel, StudentsModel>($"/api/Student/getbyuserid/{User.ID}", Student);
-					if (StudentRes != null && res.Success)
+					Student.UserID = User.ID;
+					var StudentRes = await ApiClient.PostAsync<BaseResponseModel, StudentsModel>("/api/Student", Student);
+					if (StudentRes != null && StudentRes.Success)
 					{
 						ToastService.ShowSuccess("Cập nhật thông tin thành công!");
-						NavigationManager.NavigateTo("/");
+						NavigationManager.NavigateTo("/updateinfo");
 					}
 				}
 				else if (res != null && res.Success)
 				{
-					var StudentRes = await ApiClient.PutAsync<BaseResponseModel, StudentsModel>($"/api/Student/getbyuserid/{User.ID}", Student);
-					if (StudentRes != null && res.Success)
+					var StudentRes = await ApiClient.PutAsync<BaseResponseModel, StudentsModel>($"/api/Student/{Student.ID}", Student);
+					if (StudentRes != null && StudentRes.Success)
 					{
 						ToastService.ShowSuccess("Cập nhật thông tin thành công!");
-						NavigationManager.NavigateTo("/");
+						NavigationManager.NavigateTo("/updateinfo");
 					}
 				}
 				// Load existing student data if necessary
 			}
 			else if (User.UserRoles.Any(ur => ur.Role.RoleName == "Parent"))
 			{
+				Parent.UserID = User.ID;
+
 				var res = await ApiClient.GetFromJsonAsync<BaseResponseModel>($"/api/Parent/getbyuserid/{User.ID}");
-				if (res == null && !res.Success)
+				if (res == null || !res.Success)
 				{
-					var ParentRes = await ApiClient.PostAsync<BaseResponseModel, ParentModel>($"/api/Parent/getbyuserid/{User.ID}", Parent);
-					if (ParentRes != null && res.Success)
+					var ParentRes = await ApiClient.PostAsync<BaseResponseModel, ParentModel>($"/api/Parent", Parent);
+					if (ParentRes != null && ParentRes.Success)
 					{
 						ToastService.ShowSuccess("Cập nhật thông tin thành công!");
-						NavigationManager.NavigateTo("/");
+						NavigationManager.NavigateTo("/updateinfo");
 					}
 				}
 				else if (res != null && res.Success)
 				{
-					var ParentRes = await ApiClient.PutAsync<BaseResponseModel, ParentModel>($"/api/Parent/getbyuserid/{User.ID}", Parent);
-					if (ParentRes != null && res.Success)
+					var ParentRes = await ApiClient.PutAsync<BaseResponseModel, ParentModel>($"/api/Parent/{Parent.ID}", Parent);
+					if (ParentRes != null && ParentRes.Success)
 					{
 						ToastService.ShowSuccess("Cập nhật thông tin thành công!");
-						NavigationManager.NavigateTo("/");
+						NavigationManager.NavigateTo("/updateinfo");
 					}
 				}
 				// Load existing parent data if necessary

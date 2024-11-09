@@ -17,13 +17,13 @@ namespace BlazorApp.ApiService.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<BaseResponseModel>> CreatedStudent(StudentsModel studentModel)
+        public async Task<ActionResult<BaseResponseModel>> CreateStudent(StudentsModel studentModel)
         {
             var createdStudent = await studentService.CreateStudent(studentModel);
             return Ok(new BaseResponseModel { Success = true, Data = createdStudent });
         }
-
-        [HttpGet("{id}")]
+		
+		[HttpGet("{id}")]
         public async Task<ActionResult<BaseResponseModel>> GetStudent(int id)
         {
             var studentModel = await studentService.GetStudent(id);
@@ -41,7 +41,7 @@ namespace BlazorApp.ApiService.Controllers
 
 			if (studentModel == null)
 			{
-				return Ok(new BaseResponseModel { Success = false, ErrorMessage = "Không tìm thấy giáo viên" });
+				return Ok(new BaseResponseModel { Success = false, ErrorMessage = "Không tìm thấy Học Sinh" });
 			}
 			return Ok(new BaseResponseModel { Success = true, Data = studentModel });
 		}
