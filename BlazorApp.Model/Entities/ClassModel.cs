@@ -16,8 +16,8 @@ namespace BlazorApp.Model.Entities
         public int GradeID { get; set; }
 
         // Quan hệ với các bảng khác
-        public virtual TeachersModel HomeroomTeacher { get; set; }  // Giáo viên chủ nhiệm
+        //public virtual TeachersModel HomeroomTeacher { get; set; }  // Giáo viên chủ nhiệm
         public virtual ICollection<StudentsModel> Students { get; set; } = new List<StudentsModel>();  // Danh sách học sinh trong lớp
-        public GradeModel Grade { get; set; }
+        public virtual GradeModel Grade { get; set; }
     }
 }

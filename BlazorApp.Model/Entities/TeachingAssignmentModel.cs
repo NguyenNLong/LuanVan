@@ -18,10 +18,12 @@ namespace BlazorApp.Model.Entities
         public int TeacherId { get; set; }
         public int ClassId { get; set; }
         public int SubjectId { get; set; }
+        public int StudentId { get; set; }
 
         // Quan hệ với các bảng khác
         public virtual TeachersModel Teacher { get; set; }
         public virtual ClassModel Class { get; set; }
         public virtual SubjectModel Subject { get; set; }
+        public virtual ICollection<StudentsModel> Students { get; set; } = new List<StudentsModel>();
     }
 }

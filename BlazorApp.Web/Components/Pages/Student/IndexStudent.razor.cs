@@ -5,13 +5,13 @@ using Blazored.Toast.Services;
 using Microsoft.AspNetCore.Components;
 using Newtonsoft.Json;
 
-namespace BlazorApp.Web.Components.Pages.Teacher
+namespace BlazorApp.Web.Components.Pages.Student
 {
-    public partial class IndexTeacher
+    public partial class IndexStudent
     {
         [Inject]
         public ApiClient ApiClient { get; set; }
-        public List<TeachersModel> TeacherModels { get; set; }
+        public List<StudentsModel> StudentsModel { get; set; }
         public AppModal Modal { get; set; }
         public int DeleteID { get; set; }
         [Inject]
@@ -19,23 +19,23 @@ namespace BlazorApp.Web.Components.Pages.Teacher
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
-            await LoadTeacher();
+            await LoadStudent();
         }
-        protected async Task LoadTeacher()
+        protected async Task LoadStudent()
         {
-            var res = await ApiClient.GetFromJsonAsync<BaseResponseModel>("/api/Teacher");
+            var res = await ApiClient.GetFromJsonAsync<BaseResponseModel>("/api/Student");
             if (res != null && res.Success)
             {
-                TeacherModels = JsonConvert.DeserializeObject<List<TeachersModel>>(res.Data.ToString());
+                StudentsModel = JsonConvert.DeserializeObject<List<StudentsModel>>(res.Data.ToString());
             }
         }
         protected async Task HandleDelete()
         {
-            var res = await ApiClient.DeleteAsync<BaseResponseModel>($"/api/Teacher/{DeleteID}");
+            var res = await ApiClient.DeleteAsync<BaseResponseModel>($"/api/Student/{DeleteID}");
             if (res != null && res.Success)
             {
-                ToastService.ShowSuccess("Xóa Giáo Viên Thành Công");
-                await LoadTeacher();
+                ToastService.ShowSuccess("Xóa học sinh thành công");
+                await LoadStudent();
                 Modal.Close();
             }
         }

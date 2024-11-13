@@ -14,5 +14,7 @@ namespace BlazorApp.Model.Entities
 
         // Quan hệ với các bảng khác
         public virtual ICollection<TeachingAssignmentModel> TeachingAssignments { get; set; } = new List<TeachingAssignmentModel>(); // Danh sách phân công giảng dạy môn học này
+        public virtual ICollection<TeachersModel> Teachers { get; set; } = new List<TeachersModel>();  // Các giáo viên dạy môn này
+        public virtual ICollection<ScoresModel> Scores { get; set; } = new List<ScoresModel>();  // Các điểm của môn học này
     }
 }

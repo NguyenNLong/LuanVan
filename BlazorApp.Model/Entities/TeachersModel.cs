@@ -26,13 +26,17 @@ namespace BlazorApp.Model.Entities
         public string Address { get; set; }
 
 
+
         public int UserID { get; set; }
         public int TeachingAssignmentID { get; set; }
         public int ClassID { get; set; }
 
 
+        //  public virtual ClassModel HomeroomClasses { get; set; }lớp giáo viên làm chủ nhiệm
         public virtual ICollection<TeachingAssignmentModel> TeachingAssignments { get; set; } = new List<TeachingAssignmentModel>();
 
         public virtual ICollection<ClassModel> Classes { get; set; } = new List<ClassModel>();
+        public virtual SubjectModel Subjects { get; set; }  //  môn mà giáo viên dạy
+
     }
 }

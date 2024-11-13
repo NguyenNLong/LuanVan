@@ -1,12 +1,12 @@
-﻿@page "/teacher"
+﻿@page "/student"
 @using BlazorApp.Model.Entities
 
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.Authorization
 
-<h3>Danh Sách Giáo Viên</h3>
+<h3>Dánh sách học sinh</h3>
 
-@if (TeacherModels == null)
+@if (StudentsModel == null)
 {
     <p>Loading ...</p>
 }
@@ -15,27 +15,27 @@ else
     <table class="table">
         <thead>
             <tr>
-                <th>TeacherName</th>
-                <th>Sex</th>
-                <th>Education</th>
-                <th>BirthDay</th>
-                <th>Address</th>
+                <th>Họ Và Tên</th>
+                <th>Ngày Sinh</th>
+                <th>Liên Lạc</th>
+                <th>Địa Chỉ</th>
+                <th>Căn Cước</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var teacher in TeacherModels)
+            @foreach (var students in StudentsModel)
             {
                 <tr>
-                    <td>@teacher.TeacherName</td>
-                    <td>@teacher.Sex</td>
-                    <td>@teacher.Education</td>
-                    <td>@teacher.BirthDay</td>
-                    <td>@teacher.Address</td>
+                    <td>@students.StudentName</td>
+                    <td>@students.DateOfBirth</td>
+                    <td>@students.PhoneNumber</td>
+                    <td>@students.Address</td>
+                    <td>@students.IdentityNumber</td>
                     <td>
-                        <a class="btn btn-secondary" href="/updateinfo/">Update</a>
+                        <a class="btn btn-secondary" href="/updatestudent/@students.ID">Cập Nhật</a>
                         <AuthorizeView Roles="Admin">
                             <Authorized>
-                                <button class="btn btn-danger" @onclick="()=> { DeleteID = teacher.ID; Modal.Open();}">Delete</button>
+                                <button class="btn btn-danger" @onclick="()=> { DeleteID = students.ID; Modal.Open();}">Xóa</button>
                             </Authorized>
                         </AuthorizeView>
                     </td>
@@ -45,9 +45,9 @@ else
     </table>
 
     <AppModal @ref="Modal">
-        <Title>Chú Ý</Title>
+        <Title>Chú ý</Title>
         <Body>
-            Bạn Thật sự muốn xóa giáo viên này
+            Bạn thật sự muốn xóa học sinh này?
         </Body>
         <Footer>
             <button type="button" class="btn btn-primary" style="width:80px" @onclick="HandleDelete">Yes</button>

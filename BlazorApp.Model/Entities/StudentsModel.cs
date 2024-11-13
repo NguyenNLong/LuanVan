@@ -20,7 +20,8 @@ namespace BlazorApp.Model.Entities
         public int UserID { get; set; }
 
 
-        public virtual ICollection<ClassModel> Classes { get; set; } = new List<ClassModel>();
+        public virtual ICollection<ClassModel> Class { get; set; } = new List<ClassModel>();
         public virtual ICollection<ParentModel> Parents { get; set; } = new List<ParentModel>();
+        public virtual ICollection<ScoresModel> Grades { get; set; } = new List<ScoresModel>();  // Danh sách điểm của học sinh
     }
 }

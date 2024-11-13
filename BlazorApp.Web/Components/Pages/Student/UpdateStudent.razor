@@ -1,0 +1,39 @@
+﻿@page "/updatestudent/{Id:int}"
+@using BlazorApp.Model.Entities
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
+
+<h3>Cập nhật học sinh</h3>
+<EditForm Model="Student" OnValidSubmit="Submit">
+	<div class="container">
+		<div class="row mb-3">
+			<div class="col-md-6">
+				<label> Tên Học Sinh</label>
+				<InputText class="form-control" @bind-Value="Student.StudentName" />
+				<ValidationMessage For="() => Student.StudentName" />
+			</div>
+			<div class="col-md-6">
+				<label>Ngày sinh </label>
+				<InputDate class="form-control" @bind-Value="Student.DateOfBirth" />
+				<ValidationMessage For="() => Student.DateOfBirth" />
+			</div>
+			<div class="col-md-6">
+				<label>Số điện thoại </label>
+				<InputNumber class="form-control" @bind-Value="Student.PhoneNumber" />
+				<ValidationMessage For="() => Student.PhoneNumber" />
+			</div>
+			<div class="col-md-6">
+				<label>Địa Chỉ </label>
+				<InputText class="form-control" @bind-Value="Student.Address" />
+				<ValidationMessage For="() => Student.Address" />
+			</div>
+			<div class="col-md-6">
+				<label>CCCD </label>
+				<InputText class="form-control" @bind-Value="Student.IdentityNumber" />
+				<ValidationMessage For="() => Student.IdentityNumber" />
+			</div>
+		</div>
+		<button class="btn btn-primary" type="submit">Save</button>
+		<a class="btn btn-secondary" href="/">Trở về</a>
+	</div>
+</EditForm>
