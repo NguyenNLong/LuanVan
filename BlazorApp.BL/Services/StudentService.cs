@@ -19,55 +19,49 @@ namespace BlazorApp.BL.Services
         Task<bool> StudentExists(int id);                       // Kiểm tra học sinh có tồn tại không
         Task DeleteStudent(int id);                             // Xóa học sinh
     }
-    public class StudentService : IStudentService
+    public class StudentService(IStudentRepository studentRepository) : IStudentService
     {
-        private readonly IStudentRepository _studentRepository;
-
-        // Constructor nhận vào IStudentRepository qua dependency injection
-        public StudentService(IStudentRepository studentRepository)
-        {
-            _studentRepository = studentRepository;
-        }
+     
 
         // Phương thức tạo học sinh mới
         public Task<StudentsModel> CreateStudent(StudentsModel studentModel)
         {
-            return _studentRepository.CreateStudent(studentModel);
+            return studentRepository.CreateStudent(studentModel);
         }
 
         // Phương thức lấy học sinh theo ID
         public Task<StudentsModel> GetStudent(int id)
         {
-            return _studentRepository.GetStudent(id);
+            return studentRepository.GetStudent(id);
         }
 
 		public Task<StudentsModel> GetStudentByUserID(int userid)
 		{
-			return _studentRepository.GetStudentByUserID(userid);
+			return studentRepository.GetStudentByUserID(userid);
 		}
 
 		// Phương thức lấy danh sách tất cả học sinh
 		public Task<List<StudentsModel>> GetStudents()
         {
-            return _studentRepository.GetStudents();
+            return studentRepository.GetStudents();
         }
 
         // Phương thức kiểm tra xem học sinh có tồn tại không
         public Task<bool> StudentExists(int id)
         {
-            return _studentRepository.StudentExists(id);
+            return studentRepository.StudentExists(id);
         }
 
         // Phương thức cập nhật thông tin học sinh
         public Task UpdateStudent(StudentsModel studentModel)
         {
-            return _studentRepository.UpdateStudent(studentModel);
+            return studentRepository.UpdateStudent(studentModel);
         }
 
         // Phương thức xóa học sinh
         public Task DeleteStudent(int id)
         {
-            return _studentRepository.DeleteStudent(id);
+            return studentRepository.DeleteStudent(id);
         }
     }
 }

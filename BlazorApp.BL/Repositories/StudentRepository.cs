@@ -39,12 +39,12 @@ namespace BlazorApp.BL.Repositories
         // Phương thức lấy học sinh theo ID
         public Task<StudentsModel> GetStudent(int id)
         {
-            return _dbContext.Students.FirstOrDefaultAsync(s => s.ID == id);
+            return _dbContext.Students.Include(r => r.Classes).FirstOrDefaultAsync(s => s.ID == id);
         }
 
 		public Task<StudentsModel> GetStudentByUserID(int userid)
 		{
-			return _dbContext.Students.FirstOrDefaultAsync(t => t.UserID == userid);
+			return _dbContext.Students.FirstOrDefaultAsync(t => t.UsersID == userid);
 		}
 
 		// Phương thức tạo mới học sinh

@@ -25,7 +25,7 @@ namespace BlazorApp.ApiService.Controllers
             }
 
             // Kiểm tra nếu tài khoản bị khóa
-            if (user.IsLock)
+            if (user.IsLocked)
             {
                 return BadRequest(new { Message = "Tài khoản của bạn đã bị khóa." });
             }

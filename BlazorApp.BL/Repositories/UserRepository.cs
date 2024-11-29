@@ -82,7 +82,7 @@ namespace BlazorApp.BL.Repositories
             var user = await dbContext.Users.FirstOrDefaultAsync(u => u.Username == username);
 
             // Đảo ngược trạng thái IsLock
-            user.IsLock = !user.IsLock;
+            user.IsLocked = !user.IsLocked;
 
             // Cập nhật người dùng trong cơ sở dữ liệu
             dbContext.Entry(user).State = EntityState.Modified;

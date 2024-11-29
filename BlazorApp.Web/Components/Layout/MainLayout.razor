@@ -16,15 +16,27 @@
 		<div class="top-row px-4">
 			<AuthorizeView>
 				<Authorized>
-					<div>Hello, </div>
+					<div>
+						<a href="/profile">
+							<img src="/bootstrap/Profile.png" alt="Hồ sơ cá nhân" style="width: 24px; height: 24px;" />
+						</a>
+					</div>
 				</Authorized>
+			</AuthorizeView>
+			<AuthorizeView>
+				<Authorized>
+					<div>Xin Chào,@UserName </div>
+				</Authorized>
+			</AuthorizeView>
+			<AuthorizeView>
+
 				<NotAuthorized>
-					<a href="/login">Log In</a>
+					<a href="/login">Đăng Nhập</a>
 				</NotAuthorized>
 			</AuthorizeView>
 			<AuthorizeView>
 				<Authorized>
-					<a href="/logout">LogOut</a>
+					<a href="/logout">Đăng Ký</a>
 				</Authorized>
 			</AuthorizeView>
 		</div>
@@ -49,6 +61,7 @@
 </div>
 
 @code {
+	private string UserName { get; set; }
 	protected override async Task OnInitializedAsync()
 	{
 		var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
@@ -58,6 +71,11 @@
 		{
 			// Nếu chưa đăng nhập thì chuyển hướng đến trang login
 			Navigation.NavigateTo("/login");
+		}
+		else
+		{
+			
+			UserName = user.Identity.Name; 
 		}
 	}
 }

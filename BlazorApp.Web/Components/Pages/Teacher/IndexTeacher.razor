@@ -15,11 +15,17 @@ else
     <table class="table">
         <thead>
             <tr>
-                <th>TeacherName</th>
-                <th>Sex</th>
-                <th>Education</th>
-                <th>BirthDay</th>
-                <th>Address</th>
+                <th>Tên Giáo Viên</th>
+                <th>Giới Tính</th>
+                <th>Học Vấn</th>
+                <th>Ngày Sinh</th>
+                <th>Địa Chỉ</th>
+                <th>Email</th>
+                <th>Trạng Thái</th>
+                <th>Số Điện Thoại</th>
+                <th>Chuyên Môn</th>
+                <th>Số CCCD</th>
+
             </tr>
         </thead>
         <tbody>
@@ -27,15 +33,32 @@ else
             {
                 <tr>
                     <td>@teacher.TeacherName</td>
-                    <td>@teacher.Sex</td>
-                    <td>@teacher.Education</td>
-                    <td>@teacher.BirthDay</td>
-                    <td>@teacher.Address</td>
+                    <td>@teacher.TPhoneNumber</td>
+                    <td>@teacher.TEmail</td>
+                    <td>@teacher.TIdentityNumber</td>
+                    <td>@teacher.TAddress</td>
+                    <td>@teacher.Specialization</td>
+                    
+                    <td>@teacher.StatusTeacher</td>
+                    <td>@teacher.DateOfBirth</td>
                     <td>
-                        <a class="btn btn-secondary" href="/updateinfo/">Update</a>
+                        <select class="form-control" @bind="teacher.Gender">
+                            <option value="Male" @selected="teacher.Gender == 'Male'">Nam</option>
+                            <option value="Female" @selected="teacher.Gender == 'Female'">Nữ</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select class="form-control" @bind="teacher.Education">
+                            <option value="Male" @selected="teacher.Education == 'Master'">Thạc Sỹ</option>
+                            <option value="Female" @selected="teacher.Education == 'Bachelor'">Cử Nhân</option>
+                        </select>
+                    </td>
+
+                    <td>
+                        <a class="btn btn-secondary" href="/updateinfo/">Cập Nhật</a>
                         <AuthorizeView Roles="Admin">
                             <Authorized>
-                                <button class="btn btn-danger" @onclick="()=> { DeleteID = teacher.ID; Modal.Open();}">Delete</button>
+                                <button class="btn btn-danger" @onclick="()=> { DeleteID = teacher.ID; Modal.Open();}">Xóa</button>
                             </Authorized>
                         </AuthorizeView>
                     </td>
@@ -50,8 +73,8 @@ else
             Bạn Thật sự muốn xóa giáo viên này
         </Body>
         <Footer>
-            <button type="button" class="btn btn-primary" style="width:80px" @onclick="HandleDelete">Yes</button>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="() => Modal.Close()">Cancel</button>
+            <button type="button" class="btn btn-primary" style="width:80px" @onclick="HandleDelete">Có</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="() => Modal.Close()">Trở Lại</button>
         </Footer>
     </AppModal>
 }

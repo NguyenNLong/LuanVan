@@ -1,0 +1,151 @@
+﻿@page "/profile"
+@using BlazorApp.Model.Entities
+@using Microsoft.AspNetCore.Components.Forms
+
+@if (User?.UserRoles?.Any(ur => ur.Role?.RoleName == "Teacher") == true)
+{
+    <h3>Thông Tin Giáo viên</h3>
+    <div class="container">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Thông Tin</th>
+                    <th>Chi Tiết</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Tên Giáo Viên</td>
+                    <td>@Teacher.TeacherName</td>
+                </tr>
+                <tr>
+                    <td>Số điện thoại</td>
+                    <td>@Teacher.TPhoneNumber</td>
+                </tr>
+                <tr>
+                    <td>Giới Tính</td>
+                    <td>@Teacher.Gender</td>
+                </tr>
+                <tr>
+                    <td>Email</td>
+                    <td>@Teacher.TEmail</td>
+                </tr>
+                <tr>
+                    <td>Ngày Sinh</td>
+                    <td>@Teacher.DateOfBirth.ToString("dd/MM/yyyy")</td>
+                </tr>
+                <tr>
+                    <td>Căn Cước Công Dân</td>
+                    <td>@Teacher.TIdentityNumber</td>
+                </tr>
+                <tr>
+                    <td>Địa Chỉ</td>
+                    <td>@Teacher.TAddress</td>
+                </tr>
+                <tr>
+                    <td>Chuyên Môn</td>
+                    <td>@Teacher.Specialization</td>
+                </tr>
+                <tr>
+                    <td>Trình Độ</td>
+                    <td>@Teacher.Education</td>
+                </tr>
+                <tr>
+                    <td>Trạng Thái</td>
+                    <td>@Teacher.StatusTeacher</td>
+                </tr>
+            </tbody>
+        </table>
+        <NavLink href="/updateinfo" class="btn btn-secondary">Cập Nhật Thông Tin</NavLink>
+    </div>
+}
+else if (User.UserRoles.Any(ur => ur.Role.RoleName == "Student"))
+{
+    <h3>Thông Tin Học Sinh</h3>
+    <div class="container">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Thông Tin</th>
+                    <th>Chi Tiết</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Tên Học Sinh</td>
+                    <td>@Student.StudentName</td>
+                </tr>
+                <tr>
+                    <td>Chọn Lớp</td>
+                    <td>@Student.ClassesID</td>
+                </tr>
+                <tr>
+                    <td>Số Điện Thoại</td>
+                    <td>@Student.SPhoneNumber</td>
+                </tr>
+                <tr>
+                    <td>Email</td>
+                    <td>@Student.SEmail</td>
+                </tr>
+                <tr>
+                    <td>Số CCCD</td>
+                    <td>@Student.SIdentityNumber</td>
+                </tr>
+                <tr>
+                    <td>Địa Chỉ</td>
+                    <td>@Student.SAddress</td>
+                </tr>
+                <tr>
+                    <td>Ngày Sinh</td>
+                    <td>@Student.DateOfBirth.ToString("dd/MM/yyyy")</td>
+                </tr>
+                <tr>
+                    <td>SDT Phụ Huynh</td>
+                    <td>@Student.ParentContactInfo</td>
+                </tr>
+                <tr>
+                    <td>Trạng Thái</td>
+                    <td>@Student.StatusStudent</td>
+                </tr>
+            </tbody>
+        </table>
+        <NavLink href="/updateinfo" class="btn btn-secondary">Cập Nhật Thông Tin</NavLink>
+    </div>
+}
+else if (User.UserRoles.Any(ur => ur.Role.RoleName == "Parent"))
+{
+    <h3>Thông Tin Phụ Huynh</h3>
+    <div class="container">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Thông Tin</th>
+                    <th>Chi Tiết</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Tên Phụ Huynh</td>
+                    <td>@Parent.ParentName</td>
+                </tr>
+                <tr>
+                    <td>Số Điện Thoại</td>
+                    <td>@Parent.PPhoneNumber</td>
+                </tr>
+                <tr>
+                    <td>Email</td>
+                    <td>@Parent.PEmail</td>
+                </tr>
+                <tr>
+                    <td>Số CCCD</td>
+                    <td>@Parent.PIdentityNumber</td>
+                </tr>
+                <tr>
+                    <td>Địa Chỉ</td>
+                    <td>@Parent.PAddress</td>
+                </tr>
+            </tbody>
+        </table>
+        <NavLink href="/updateinfo" class="btn btn-secondary">Cập Nhật Thông Tin</NavLink>
+    </div>
+}

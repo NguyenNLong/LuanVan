@@ -20,56 +20,50 @@ namespace BlazorApp.BL.Services
         Task DeleteTeacher(int id);                              // Xóa giáo viên
     }
 
-    public class TeacherService : ITeacherService
+    public class TeacherService(ITeacherRepository teacherRepository) : ITeacherService
     {
-        private readonly ITeacherRepository _teacherRepository;
-
-        // Constructor nhận vào ITeacherRepository qua dependency injection
-        public TeacherService(ITeacherRepository teacherRepository)
-        {
-            _teacherRepository = teacherRepository;
-        }
+        
 
         // Phương thức tạo giáo viên mới
         public Task<TeachersModel> CreateTeacher(TeachersModel teacherModel)
         {
-            return _teacherRepository.CreateTeacher(teacherModel);
+            return teacherRepository.CreateTeacher(teacherModel);
         }
 
         // Phương thức lấy giáo viên theo ID
         public Task<TeachersModel> GetTeacher(int id)
         {
-            return _teacherRepository.GetTeacher(id);
+            return teacherRepository.GetTeacher(id);
         }
 
         // Phương thức lấy giáo viên theo UserID
         public Task<TeachersModel> GetTeacherByUserID(int userid)
         {
-            return _teacherRepository.GetTeacherByUserID(userid);
+            return teacherRepository.GetTeacherByUserID(userid);
         }
 
         // Phương thức lấy danh sách tất cả giáo viên
         public Task<List<TeachersModel>> GetTeachers()
         {
-            return _teacherRepository.GetTeachers();
+            return teacherRepository.GetTeachers();
         }
 
         // Phương thức kiểm tra xem giáo viên có tồn tại không
         public Task<bool> TeacherExists(int id)
         {
-            return _teacherRepository.TeacherExists(id);
+            return teacherRepository.TeacherExists(id);
         }
 
         // Phương thức cập nhật thông tin giáo viên
         public Task UpdateTeacher(TeachersModel teacherModel)
         {
-            return _teacherRepository.UpdateTeacher(teacherModel);
+            return teacherRepository.UpdateTeacher(teacherModel);
         }
 
         // Phương thức xóa giáo viên
         public Task DeleteTeacher(int id)
         {
-            return _teacherRepository.DeleteTeacher(id);
+            return teacherRepository.DeleteTeacher(id);
         }
 
     }

@@ -1,139 +1,176 @@
 ﻿@page "/updateinfo"
-
 @using BlazorApp.Model.Entities
-@using Microsoft.AspNetCore.Authorization
-@using Microsoft.AspNetCore.Components.Authorization
-
-
-<h2>Update Information</h2>
-
-@if (User.UserRoles.Any(ur => ur.Role.RoleName == "Teacher"))
+@using Microsoft.AspNetCore.Components.Forms
+@if (User?.UserRoles?.Any(ur => ur.Role?.RoleName == "Teacher")==true)
 {
-	<h3>Teacher Information</h3>
-	<EditForm Model="Teacher" OnValidSubmit="Submit">
-	<div class="container">
-		<div class="row mb-3">
-			<div class="col-md-6">
-				<label> Tên Giáo Viên</label>
-				<InputText class="form-control" @bind-Value="Teacher.TeacherName" />
-				<ValidationMessage For="() => Teacher.TeacherName" />
-			</div>
-			<div class="col-md-6">
-				<label>Tên Tài Khoản </label>
-				<InputText class="form-control" @bind-Value="User.Username" />
-				<ValidationMessage For="() => User.Username" />
-			</div>
-			<div class="col-md-6">
-				<label>Giới Tính </label>
-				<InputSelect class="form-control" @bind-Value="Teacher.Sex">
-					<option value="">Chọn Giới Tính</option>
-					@foreach (var Sex in Enum.GetValues(typeof(SexStatus)).Cast<SexStatus>())
-					{
-						<option value="@Sex">@Sex</option>
-					}
-				</InputSelect>
-				<ValidationMessage For="() => Teacher.Sex" />
-			</div>
-			<div class="col-md-6">
-				<label>Học Vấn </label>
-				<InputSelect class="form-control" @bind-Value="Teacher.Education">
-					<option value="">Chọn Học Vấn</option>
-					@foreach (var Education in Enum.GetValues(typeof(EducationStatus)).Cast<EducationStatus>())
-					{
-						<option value="@Education">@Education</option>
-					}
-				</InputSelect>
-				<ValidationMessage For="() => Teacher.Education" />
-			</div>
-			<div class="col-md-6">
-				<label>Ngày sinh </label>
-				<InputDate class="form-control" @bind-Value="Teacher.BirthDay" />
-				<ValidationMessage For="() => Teacher.BirthDay" />
-			</div>
-			<div class="col-md-6">
-				<label>Địa Chỉ </label>
-				<InputText class="form-control" @bind-Value="Teacher.Address" />
-				<ValidationMessage For="() => Teacher.Address" />
-			</div>
-		</div>
-		<button class="btn btn-primary" type="submit">Save</button>
-		<a class="btn btn-secondary" href="/">Trở về</a>
-	</div>
-	</EditForm>
+    <h3>Cập Nhật Thông Tin Giáo viên</h3>
+    <EditForm Model="Teacher" OnValidSubmit="Submit">
+        <DataAnnotationsValidator />
+        <div class="container">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label>Tên Giáo Viên</label>
+                    <InputText class="form-control" @bind-Value="Teacher.TeacherName" />
+                    <ValidationMessage For="() => Teacher.TeacherName" />
+                </div>
+                <div class="col-md-6">
+                    <label>Số điện thoại</label>
+                    <InputText class="form-control" @bind-Value="Teacher.TPhoneNumber" />
+                    <ValidationMessage For="() => Teacher.TPhoneNumber" />
+                </div>
+                <div class="col-md-6">
+					<label>Giới Tính</label>
+					<select class="form-control" @bind="Teacher.Gender">
+						@foreach (var status in Enum.GetValues(typeof(Gender)).Cast<Gender>())
+						{
+							<option value="@status">@status</option>
+						}
+					</select>
+                        <ValidationMessage For="() => Teacher.Gender" />
+				</div>
+                <div class="col-md-6">
+                    <label>Email</label>
+                    <InputText class="form-control" @bind-Value="Teacher.TEmail" />
+                    <ValidationMessage For="() => Teacher.TEmail" />
+                </div>
+                 <div class="col-md-6">
+                    <label>Ngày Sinh</label>
+                    <InputDate class="form-control" @bind-Value="Teacher.DateOfBirth" />
+                    <ValidationMessage For="() => Teacher.DateOfBirth" />
+                </div>
+                <div class="col-md-6">
+                    <label>Căn Cước Công Dân</label>
+                    <InputText class="form-control" @bind-Value="Teacher.TIdentityNumber" />
+                    <ValidationMessage For="() => Teacher.TIdentityNumber" />
+                </div>
+                <div class="col-md-6">
+                    <label>Địa Chỉ</label>
+                    <InputText class="form-control" @bind-Value="Teacher.TAddress" />
+                    <ValidationMessage For="() => Teacher.TAddress" />
+                </div>
+                <div class="col-md-6">
+                    <label>Chuyên Môn</label>
+                    <InputText class="form-control" @bind-Value="Teacher.Specialization" />
+                    <ValidationMessage For="() => Teacher.Specialization" />
+                </div>
+                <div class="col-md-6">
+                        <label>Trình Độ</label>
+					<select class="form-control" @bind="Teacher.Education">
+						@foreach (var status in Enum.GetValues(typeof(Education)).Cast<Education>())
+						{
+							<option value="@status">@status</option>
+						}
+					</select>
+                        <ValidationMessage For="() => Teacher.Education" />
+				</div>
+                <div class="col-md-6">
+                    <label>Trạng Thái</label>
+                    <InputText class="form-control" @bind-Value="Teacher.StatusTeacher" />
+                    <ValidationMessage For="() => Teacher.StatusTeacher" />
+                </div>
+            </div>
+            <button class="btn btn-primary" type="submit">Lưu</button>
+        </div>
+    </EditForm>
 }
 else if (User.UserRoles.Any(ur => ur.Role.RoleName == "Student"))
 {
-	<h3>Student Information</h3>
-	<EditForm Model="Student" OnValidSubmit="Submit">
-	<div class="container">
-		<div class="row mb-3">
-			<div class="col-md-6">
-				<label> Tên Học Sinh</label>
-				<InputText class="form-control" @bind-Value="Student.StudentName" />
-				<ValidationMessage For="() => Student.StudentName" />
-			</div>
-			<div class="col-md-6">
-				<label>Tên Tài Khoản </label>
-				<InputText class="form-control" @bind-Value="User.Username" />
-				<ValidationMessage For="() => User.Username" />
-			</div>
-			<div class="col-md-6">
-				<label>Ngày sinh </label>
-				<InputDate class="form-control" @bind-Value="Student.DateOfBirth" />
-				<ValidationMessage For="() => Teacher.BirthDay" />
-			</div>
-			<div class="col-md-6">
-				<label>Số điện thoại </label>
-				<InputNumber class="form-control" @bind-Value="Student.PhoneNumber" />
-				<ValidationMessage For="() => Student.PhoneNumber" />
-			</div>
-			<div class="col-md-6">
-				<label>Địa Chỉ </label>
-				<InputText class="form-control" @bind-Value="Student.Address" />
-				<ValidationMessage For="() => Student.Address" />
-			</div>
-			<div class="col-md-6">
-				<label>CCCD </label>
-				<InputText class="form-control" @bind-Value="Student.IdentityNumber" />
-				<ValidationMessage For="() => Student.IdentityNumber" />
-			</div>
-		</div>
-		<button class="btn btn-primary" type="submit">Save</button>
-		<a class="btn btn-secondary" href="/">Trở về</a>
-	</div>
-	</EditForm>
-
+    <h3>Cập Nhật Thông Tin Học Sinh</h3>
+    <EditForm Model="Student" OnValidSubmit="Submit">
+        <DataAnnotationsValidator />
+        <div class="container">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label>Tên Học Sinh</label>
+                    <InputText class="form-control" @bind-Value="Student.StudentName" />
+                    <ValidationMessage For="() => Student.StudentName" />
+                </div>
+                <div class="col-md-6">
+                    <label>Chọn Lớp</label>
+                    <InputSelect class="form-control" @bind-Value="Student.ClassesID">
+                        <option value="">Chọn Lớp</option>
+                        @foreach (var classes in Classes)
+                        {
+                            <option value="@classes.ID">@classes.ClassName</option>
+                        }
+                    </InputSelect>
+                    <ValidationMessage For="() => Student.StudentName" />
+                </div>
+                <div class="col-md-6">
+                    <label>Số Điện Thoại</label>
+                    <InputText class="form-control" @bind-Value="Student.SPhoneNumber" />
+                    <ValidationMessage For="() => Student.SPhoneNumber" />
+                </div>
+                <div class="col-md-6">
+                    <label>Email</label>
+                    <InputText class="form-control" @bind-Value="Student.SEmail" />
+                    <ValidationMessage For="() => Student.SEmail" />
+                </div>
+                <div class="col-md-6">
+                    <label>Số CCCD</label>
+                    <InputText class="form-control" @bind-Value="Student.SIdentityNumber" />
+                    <ValidationMessage For="() => Student.SIdentityNumber" />
+                </div>
+                <div class="col-md-6">
+                    <label>Địa Chỉ</label>
+                    <InputText class="form-control" @bind-Value="Student.SAddress" />
+                    <ValidationMessage For="() => Student.SAddress" />
+                </div>
+                <div class="col-md-6">
+                    <label>Ngày Sinh</label>
+                    <InputDate class="form-control" @bind-Value="Student.DateOfBirth" />
+                    <ValidationMessage For="() => Student.DateOfBirth" />
+                </div>
+                <div class="col-md-6">
+                    <label>SDT Phụ Huynh</label>
+                    <InputText class="form-control" @bind-Value="Student.ParentContactInfo" />
+                    <ValidationMessage For="() => Student.ParentContactInfo" />
+                </div>
+                <div class="col-md-6">
+                    <label>Trạng Thái</label>
+                    <InputText class="form-control" @bind-Value="Student.StatusStudent" />
+                    <ValidationMessage For="() => Student.StatusStudent" />
+                </div>
+            </div>
+            <button class="btn btn-primary" type="submit">Lưu</button>
+        </div>
+    </EditForm>
 }
 else if (User.UserRoles.Any(ur => ur.Role.RoleName == "Parent"))
 {
-	<h3>Parent Information</h3>
-	<EditForm Model="Parent" OnValidSubmit="Submit">
-	<div class="container">
-		<div class="row mb-3">
-			<div class="col-md-6">
-				<label> Tên Phụ Huynh</label>
-				<InputText class="form-control" @bind-Value="Parent.ParentName" />
-				<ValidationMessage For="() => Parent.ParentName" />
-			</div>
-			<div class="col-md-6">
-				<label>Tên Tài Khoản </label>
-				<InputText class="form-control" @bind-Value="User.Username" />
-				<ValidationMessage For="() => User.Username" />
-			</div>
-			<div class="col-md-6">
-				<label>Số điện thoại </label>
-				<InputNumber class="form-control" @bind-Value="Parent.PhoneNumber" />
-				<ValidationMessage For="() => Student.PhoneNumber" />
-			</div>
-			<div class="col-md-6">
-				<label>Địa Chỉ </label>
-				<InputText class="form-control" @bind-Value="Student.Address" />
-				<ValidationMessage For="() => Student.Address" />
-			</div>
-		</div>
-		<button class="btn btn-primary" type="submit">Save</button>
-		<a class="btn btn-secondary" href="/">Trở về</a>
-	</div>
-	</EditForm>
-
+    <h3>Cập Nhật Thông Tin Phụ Huynh</h3>
+    <EditForm Model="Parent" OnValidSubmit="Submit">
+        <DataAnnotationsValidator />
+        <div class="container">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label>Tên Phụ Huynh</label>
+                    <InputText class="form-control" @bind-Value="Parent.ParentName" />
+                    <ValidationMessage For="() => Parent.ParentName" />
+                </div>
+                <div class="col-md-6">
+                    <label>Số Điện Thoại</label>
+                    <InputText class="form-control" @bind-Value="Parent.PPhoneNumber" />
+                    <ValidationMessage For="() => Parent.PPhoneNumber" />
+                </div>
+                <div class="col-md-6">
+                    <label>Email</label>
+                    <InputText class="form-control" @bind-Value="Parent.PEmail" />
+                    <ValidationMessage For="() => Parent.PEmail" />
+                </div>
+                <div class="col-md-6">
+                    <label>Số CCCD</label>
+                    <InputText class="form-control" @bind-Value="Parent.PIdentityNumber" />
+                    <ValidationMessage For="() => Parent.PIdentityNumber" />
+                </div>
+                <div class="col-md-6">
+                    <label>Địa Chỉ</label>
+                    <InputText class="form-control" @bind-Value="Parent.PAddress" />
+                    <ValidationMessage For="() => Parent.PAddress" />
+                </div>
+            </div>
+            <button class="btn btn-primary" type="submit">Lưu</button>
+        </div>
+    </EditForm>
 }
+

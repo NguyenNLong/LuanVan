@@ -1,5 +1,7 @@
 ﻿using BlazorApp.BL.Repositories;
+using BlazorApp.Database.Data;
 using BlazorApp.Model.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,67 +10,41 @@ using System.Threading.Tasks;
 
 namespace BlazorApp.BL.Services
 {
-    public interface IScoresService
+    public interface IScoreService
     {
-        Task<List<ScoresModel>> GetScores();                          // Lấy danh sách điểm
-        Task<ScoresModel> GetScore(int id);                            // Lấy điểm theo ID
-        Task<ScoresModel> GetScoreByStudentAndSubject(int studentId, int subjectId, int semester); // Lấy điểm của học sinh theo môn học và học kỳ
-        Task UpdateScore(ScoresModel scoresModel);                     // Cập nhật điểm
-        Task<ScoresModel> CreateScore(ScoresModel scoresModel);        // Tạo điểm mới
-        Task<bool> ScoreExists(int id);                                // Kiểm tra điểm có tồn tại không
-        Task DeleteScore(int id);                                      // Xóa điểm
+        Task<ScoresModel> AddScoreAsync(ScoresModel score);
+        Task<ScoresModel> UpdateScoreAsync(ScoresModel score);
+        Task<IEnumerable<ScoresModel>> GetScoresByClassAndSubjectAsync(int classId, int subjectId, int semesterId);
     }
 
-    public class ScoresService : IScoresService
+    public class ScoreService(IScoreRepository scoreRepository) : IScoreService
     {
-        private readonly IScoreRepository _scoresRepository;
+        
+       
 
-        // Constructor nhận vào IScoresRepository qua dependency injection
-        public ScoresService(IScoreRepository scoresRepository)
+        public async Task<ScoresModel> AddScoreAsync(ScoresModel score)
         {
-            _scoresRepository = scoresRepository;
+            
+            if (score == null || score.StudentID <= 0 || score.SubjectID <= 0)
+                throw new ArgumentException("Invalid score data");
+
+            return await scoreRepository.AddScoreAsync(score);
         }
 
-        // Lấy danh sách điểm
-        public Task<List<ScoresModel>> GetScores()
+        public async Task<ScoresModel> UpdateScoreAsync(ScoresModel score)
         {
-            return _scoresRepository.GetScores();
+            var updatedScore = await scoreRepository.UpdateScoreAsync(score);
+            if (updatedScore == null)
+                throw new Exception("Score not found or update failed");
+
+            return updatedScore;
         }
 
-        // Lấy điểm theo ID
-        public Task<ScoresModel> GetScore(int id)
+        public async Task<IEnumerable<ScoresModel>> GetScoresByClassAndSubjectAsync(int classId, int subjectId, int semesterId)
         {
-            return _scoresRepository.GetScore(id);
-        }
-
-        // Lấy điểm của học sinh theo môn học và học kỳ
-        public Task<ScoresModel> GetScoreByStudentAndSubject(int studentId, int subjectId, int semester)
-        {
-            return _scoresRepository.GetScoreByStudentAndSubject(studentId, subjectId, semester);
-        }
-
-        // Cập nhật thông tin điểm
-        public Task UpdateScore(ScoresModel scoresModel)
-        {
-            return _scoresRepository.UpdateScore(scoresModel);
-        }
-
-        // Tạo điểm mới
-        public Task<ScoresModel> CreateScore(ScoresModel scoresModel)
-        {
-            return _scoresRepository.CreateScore(scoresModel);
-        }
-
-        // Kiểm tra xem điểm có tồn tại không
-        public Task<bool> ScoreExists(int id)
-        {
-            return _scoresRepository.ScoreExists(id);
-        }
-
-        // Xóa điểm
-        public Task DeleteScore(int id)
-        {
-            return _scoresRepository.DeleteScore(id);
+            return await scoreRepository.GetScoresByClassAndSubjectAsync(classId, subjectId, semesterId);
         }
     }
+
+
 }

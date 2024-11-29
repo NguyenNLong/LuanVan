@@ -6,176 +6,168 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Security.Claims;
-using System.Data;
+using static System.Net.WebRequestMethods;
 
 namespace BlazorApp.Web.Components.Pages.Login
 {
-	public partial class UpdateInfo
-	{
-		public TeachersModel Teacher { get; set; } = new();
+    public partial class UpdateInfo
+    {
+        public List<ClassModel> Classes { get; set; }
 
-		public StudentsModel Student { get; set; } = new();
+        public TeachersModel Teacher { get; set; } = new();
 
-		public ParentModel Parent { get; set; } = new();
-		public UserModel User { get; set; } = new UserModel();
-		[Inject]
-		public AuthenticationStateProvider AuthStateProvider { get; set; }
+        public StudentsModel Student { get; set; } = new();
 
-		[Inject]
-		private IToastService ToastService { get; set; }
-		[Inject]
-		private NavigationManager NavigationManager { get; set; }
-		[Inject]
-		private ApiClient ApiClient { get; set; }
-		protected override async Task OnInitializedAsync()
-		{
-			await base.OnInitializedAsync();
-			await LoadUserFromToken();
+        public ParentModel Parent { get; set; } = new();
 
-			if (User.UserRoles.Any(ur => ur.Role.RoleName == "Teacher"))
-			{
-				Teacher = new TeachersModel();
-				var teacherRes = await ApiClient.GetFromJsonAsync<BaseResponseModel>($"/api/Teacher/getbyuserid/{User.ID}");
-				if (teacherRes != null && teacherRes.Success)
-				{
-					Teacher = JsonConvert.DeserializeObject<TeachersModel>(teacherRes.Data.ToString());
-				}
-				else if (teacherRes == null && !teacherRes.Success)
-				{
-					// Nếu không tìm thấy học sinh, trả về Student rỗng
-					Teacher = new TeachersModel();
-				}
+        public UserModel User { get; set; } = new UserModel();
 
-			}
-			else if (User.UserRoles.Any(ur => ur.Role.RoleName == "Student"))
-			{
-				Student = new StudentsModel();
-				var studentRes = await ApiClient.GetFromJsonAsync<BaseResponseModel>($"/api/Student/getbyuserid/{User.ID}");
-				if (studentRes != null && studentRes.Success)
-				{
-					Student = JsonConvert.DeserializeObject<StudentsModel>(studentRes.Data.ToString());
-				}
-				else if (studentRes == null && !studentRes.Success)
-				{
-					// Nếu không tìm thấy học sinh, trả về Student rỗng
-					Student = new StudentsModel();
-				}
-			}
-			else if (User.UserRoles.Any(ur => ur.Role.RoleName == "Parent"))
-			{
-				Parent = new ParentModel();
-				var parentRes = await ApiClient.GetFromJsonAsync<BaseResponseModel>($"/api/Parent/getbyuserid/{User.ID}");
-				if (parentRes != null && parentRes.Success)
-				{
-					Parent = JsonConvert.DeserializeObject<ParentModel>(parentRes.Data.ToString());
-				}
-				else if (parentRes == null && !parentRes.Success)
-				{
-					// Nếu không tìm thấy học sinh, trả về Student rỗng
-					Parent = new ParentModel();
-				}
-			}
+        [Inject]
+        public AuthenticationStateProvider AuthStateProvider { get; set; }
+
+        [Inject]
+        private IToastService ToastService { get; set; }
+
+        [Inject]
+        private NavigationManager NavigationManager { get; set; }
+
+        [Inject]
+        private ApiClient ApiClient { get; set; }
+
+        protected override async Task OnInitializedAsync()
+        {
+            await base.OnInitializedAsync();
+            await LoadUserFromToken();
 
 
-		}
-		protected async Task LoadUserFromToken()
-		{
-			var authState = await AuthStateProvider.GetAuthenticationStateAsync();
-			var userClaims = authState.User;
+            if (User.UserRoles.Any(ur => ur.Role.RoleName == "Teacher"))
+            {
+                var teacherRes = await ApiClient.GetFromJsonAsync<BaseResponseModel>($"/api/Teacher/getbyuserid/{User.ID}");
+                if (teacherRes != null && teacherRes.Success)
+                {
+                    Teacher = JsonConvert.DeserializeObject<TeachersModel>(teacherRes.Data.ToString());
+                }
+            }
+            else if (User.UserRoles.Any(ur => ur.Role.RoleName == "Student"))
+            {
 
-			if (userClaims.Identity.IsAuthenticated)
-			{
-				User.Username = userClaims.FindFirst(ClaimTypes.Name)?.Value;
-				var roles = userClaims.FindAll(ClaimTypes.Role).Select(r => r.Value).ToList();
-				User.UserRoles = roles.Select(roleName => new UserRoleModel
-				{
-					Role = new RoleModel { RoleName = roleName }
-				}).ToList();
-				// Nếu bạn có thêm các thông tin khác như ID, email, role, thì trích xuất từ claims:
-				User.ID = int.Parse(userClaims.FindFirst("UserId")?.Value); // Giả sử bạn lưu UserId trong claim
-			}
-			else
-			{
-				ToastService.ShowError("Không thể lấy thông tin người dùng.");
-			}
-		}
-		public async Task Submit()
-		{
-			if (User.UserRoles.Any(ur => ur.Role.RoleName == "Teacher"))
-			{
-				var res = await ApiClient.GetFromJsonAsync<BaseResponseModel>($"/api/Teacher/getbyuserid/{User.ID}");
-				if (res == null || !res.Success)
-				{
-					Teacher.UserID = User.ID;
+                var studentRes = await ApiClient.GetFromJsonAsync<BaseResponseModel>($"/api/Student/getbyuserid/{User.ID}");
+                if (studentRes != null && studentRes.Success)
+                {
+                    Student = JsonConvert.DeserializeObject<StudentsModel>(studentRes.Data.ToString());
+                }
+            }
+            else if (User.UserRoles.Any(ur => ur.Role.RoleName == "Parent"))
+            {
+                var parentRes = await ApiClient.GetFromJsonAsync<BaseResponseModel>($"/api/Parent/getbyuserid/{User.ID}");
+                if (parentRes != null && parentRes.Success)
+                {
+                    Parent = JsonConvert.DeserializeObject<ParentModel>(parentRes.Data.ToString());
+                }
+            }
 
-					var TeacherRes = await ApiClient.PostAsync<BaseResponseModel, TeachersModel>($"/api/Teacher", Teacher);
-					if (TeacherRes != null && TeacherRes.Success)
-					{
-						ToastService.ShowSuccess("Cập nhật thông tin thành công!");
-						NavigationManager.NavigateTo("/updateinfo");
-					}
-				}
-				else if (res != null && res.Success)
-				{
-					var TeacherRes = await ApiClient.PutAsync<BaseResponseModel, TeachersModel>($"/api/Teacher/{Teacher.ID}", Teacher);
-					if (TeacherRes != null && TeacherRes.Success)
-					{
-						ToastService.ShowSuccess("Cập nhật thông tin thành công!");
-						NavigationManager.NavigateTo("/updateinfo");
-					}
-				}
+            var classRes = await ApiClient.GetFromJsonAsync<BaseResponseModel>("/api/Class");
+            if (classRes != null && classRes.Success)
+            {
+                Classes = JsonConvert.DeserializeObject<List<ClassModel>>(classRes.Data.ToString());
+            }
+        }
 
-			}
-			else if (User.UserRoles.Any(ur => ur.Role.RoleName == "Student"))
-			{
-				var res = await ApiClient.GetFromJsonAsync<BaseResponseModel>($"/api/Student/getbyuserid/{User.ID}");
-				if (res == null || !res.Success)
-				{
-					Student.UserID = User.ID;
-					var StudentRes = await ApiClient.PostAsync<BaseResponseModel, StudentsModel>("/api/Student", Student);
-					if (StudentRes != null && StudentRes.Success)
-					{
-						ToastService.ShowSuccess("Cập nhật thông tin thành công!");
-						NavigationManager.NavigateTo("/updateinfo");
-					}
-				}
-				else if (res != null && res.Success)
-				{
-					var StudentRes = await ApiClient.PutAsync<BaseResponseModel, StudentsModel>($"/api/Student/{Student.ID}", Student);
-					if (StudentRes != null && StudentRes.Success)
-					{
-						ToastService.ShowSuccess("Cập nhật thông tin thành công!");
-						NavigationManager.NavigateTo("/updateinfo");
-					}
-				}
-				// Load existing student data if necessary
-			}
-			else if (User.UserRoles.Any(ur => ur.Role.RoleName == "Parent"))
-			{
-				Parent.UserID = User.ID;
+        protected async Task LoadUserFromToken()
+        {
+            var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+            var userClaims = authState.User;
 
-				var res = await ApiClient.GetFromJsonAsync<BaseResponseModel>($"/api/Parent/getbyuserid/{User.ID}");
-				if (res == null || !res.Success)
-				{
-					var ParentRes = await ApiClient.PostAsync<BaseResponseModel, ParentModel>($"/api/Parent", Parent);
-					if (ParentRes != null && ParentRes.Success)
-					{
-						ToastService.ShowSuccess("Cập nhật thông tin thành công!");
-						NavigationManager.NavigateTo("/updateinfo");
-					}
-				}
-				else if (res != null && res.Success)
-				{
-					var ParentRes = await ApiClient.PutAsync<BaseResponseModel, ParentModel>($"/api/Parent/{Parent.ID}", Parent);
-					if (ParentRes != null && ParentRes.Success)
-					{
-						ToastService.ShowSuccess("Cập nhật thông tin thành công!");
-						NavigationManager.NavigateTo("/updateinfo");
-					}
-				}
-				// Load existing parent data if necessary
-			}
+            if (userClaims.Identity.IsAuthenticated)
+            {
+                User.Username = userClaims.FindFirst(ClaimTypes.Name)?.Value;
+                var roles = userClaims.FindAll(ClaimTypes.Role).Select(r => r.Value).ToList();
+                User.UserRoles = roles.Select(roleName => new UserRoleModel
+                {
+                    Role = new RoleModel { RoleName = roleName }
+                }).ToList();
+                User.ID = int.Parse(userClaims.FindFirst("UserId")?.Value);
+            }
+            else
+            {
+                ToastService.ShowError("Không thể lấy thông tin người dùng.");
+            }
+        }
 
-		}
-	}
+        public async Task Submit()
+        {
+            if (User.UserRoles.Any(ur => ur.Role.RoleName == "Teacher"))
+            {
+                Teacher.UsersID = User.ID;
+                var res = await ApiClient.GetFromJsonAsync<BaseResponseModel>($"/api/Teacher/getbyuserid/{User.ID}");
+                if (res == null || !res.Success)
+                {
+                    var teacherRes = await ApiClient.PostAsync<BaseResponseModel, TeachersModel>("/api/Teacher", Teacher);
+                    if (teacherRes != null && teacherRes.Success)
+                    {
+                        ToastService.ShowSuccess("Cập nhật thông tin thành công!");
+                        NavigationManager.NavigateTo("/profile");
+                    }
+                }
+                else
+                {
+                    var teacherRes = await ApiClient.PutAsync<BaseResponseModel, TeachersModel>($"/api/Teacher/{Teacher.ID}", Teacher);
+                    if (teacherRes != null && teacherRes.Success)
+                    {
+                        ToastService.ShowSuccess("Cập nhật thông tin thành công!");
+                        NavigationManager.NavigateTo("/profile");
+                    }
+                }
+            }
+            else if (User.UserRoles.Any(ur => ur.Role.RoleName == "Student"))
+            {
+                Student.UsersID = User.ID;
+                
+                
+
+                var res = await ApiClient.GetFromJsonAsync<BaseResponseModel>($"/api/Student/getbyuserid/{User.ID}");
+                if (res == null || !res.Success)
+                {
+                    var studentRes = await ApiClient.PostAsync<BaseResponseModel, StudentsModel>("/api/Student", Student);
+                    if (studentRes != null && studentRes.Success)
+                    {
+                        ToastService.ShowSuccess("Cập nhật thông tin thành công!");
+                        NavigationManager.NavigateTo("/profile");
+                    }
+                }
+                else
+                {
+                    var studentRes = await ApiClient.PutAsync<BaseResponseModel, StudentsModel>($"/api/Student/{Student.ID}", Student);
+                    if (studentRes != null && studentRes.Success)
+                    {
+                        ToastService.ShowSuccess("Cập nhật thông tin thành công!");
+                        NavigationManager.NavigateTo("/profile");
+                    }
+                }
+            }
+            else if (User.UserRoles.Any(ur => ur.Role.RoleName == "Parent"))
+            {
+                Parent.UserID = User.ID;
+                var res = await ApiClient.GetFromJsonAsync<BaseResponseModel>($"/api/Parent/getbyuserid/{User.ID}");
+                if (res == null || !res.Success)
+                {
+                    var parentRes = await ApiClient.PostAsync<BaseResponseModel, ParentModel>("/api/Parent", Parent);
+                    if (parentRes != null && parentRes.Success)
+                    {
+                        ToastService.ShowSuccess("Cập nhật thông tin thành công!");
+                        NavigationManager.NavigateTo("/profile");
+                    }
+                }
+                else
+                {
+                    var parentRes = await ApiClient.PutAsync<BaseResponseModel, ParentModel>($"/api/Parent/{Parent.ID}", Parent);
+                    if (parentRes != null && parentRes.Success)
+                    {
+                        ToastService.ShowSuccess("Cập nhật thông tin thành công!");
+                        NavigationManager.NavigateTo("/profile");
+                    }
+                }
+            }
+        }
+    }
 }

@@ -8,22 +8,18 @@ namespace BlazorApp.Model.Entities
 {
     public class TeachingAssignmentModel
     {
-        public int ID { get; set; }  // Khóa chính
+        public int ID { get; set; }
+        public int TeacherID { get; set; }
+        public int SubjectID { get; set; }
+        public int ClassID { get; set; }
+        public int SemesterID { get; set; }
+        /*public int StudentID { get; set; }*/
 
-        // Thuộc tính năm học và học kỳ
-        public string SchoolYear { get; set; }  // Ví dụ: "2023-2024"
-        public int Semester { get; set; }  // 1 = Học kỳ 1, 2 = Học kỳ 2
-
-        // Khóa ngoại
-        public int TeacherId { get; set; }
-        public int ClassId { get; set; }
-        public int SubjectId { get; set; }
-        public int StudentId { get; set; }
-
-        // Quan hệ với các bảng khác
-        public virtual TeachersModel Teacher { get; set; }
-        public virtual ClassModel Class { get; set; }
-        public virtual SubjectModel Subject { get; set; }
-        public virtual ICollection<StudentsModel> Students { get; set; } = new List<StudentsModel>();
+        // Navigation properties
+        /*public virtual ICollection<StudentsModel> Students { get; set; }*/
+        public TeachersModel Teacher { get; set; } = null!;
+        public SubjectModel Subject { get; set; } = null!;
+        public ClassModel Class { get; set; } = null!;
+        public SemestersModel Semester { get; set; } = null!;
     }
 }

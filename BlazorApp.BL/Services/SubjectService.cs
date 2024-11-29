@@ -19,26 +19,20 @@ namespace BlazorApp.BL.Services
         Task DeleteSubject(int id);                                // Xóa môn học
     }
 
-    public class SubjectService : ISubjectService
+    public class SubjectService(ISubjectRepository subjectRepository) : ISubjectService
     {
-        private readonly ISubjectRepository _subjectRepository;
-
-        // Constructor nhận vào ISubjectRepository qua dependency injection
-        public SubjectService(ISubjectRepository subjectRepository)
-        {
-            _subjectRepository = subjectRepository;
-        }
+     
 
         // Phương thức tạo môn học mới
         public Task<SubjectModel> CreateSubject(SubjectModel subjectModel)
         {
-            return _subjectRepository.CreateSubject(subjectModel);
+            return subjectRepository.CreateSubject(subjectModel);
         }
 
         // Phương thức lấy môn học theo ID
         public Task<SubjectModel> GetSubject(int id)
         {
-            return _subjectRepository.GetSubject(id);
+            return subjectRepository.GetSubject(id);
         }
 
         // Phương thức lấy môn học theo tên
@@ -47,25 +41,25 @@ namespace BlazorApp.BL.Services
         // Phương thức lấy danh sách tất cả môn học
         public Task<List<SubjectModel>> GetSubjects()
         {
-            return _subjectRepository.GetSubjects();
+            return subjectRepository.GetSubjects();
         }
 
         // Phương thức kiểm tra xem môn học có tồn tại không
         public Task<bool> SubjectExists(int id)
         {
-            return _subjectRepository.SubjectExists(id);
+            return subjectRepository.SubjectExists(id);
         }
 
         // Phương thức cập nhật thông tin môn học
         public Task UpdateSubject(SubjectModel subjectModel)
         {
-            return _subjectRepository.UpdateSubject(subjectModel);
+            return subjectRepository.UpdateSubject(subjectModel);
         }
 
         // Phương thức xóa môn học
         public Task DeleteSubject(int id)
         {
-            return _subjectRepository.DeleteSubject(id);
+            return subjectRepository.DeleteSubject(id);
         }
     }
 }

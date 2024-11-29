@@ -81,18 +81,17 @@ builder.Services.AddScoped<IStudentService, StudentService>();
 builder.Services.AddScoped<IStudentRepository, StudentRepository>();
 builder.Services.AddScoped<IParentRepository, ParentRepository>();
 builder.Services.AddScoped<IParentService, ParentService>();
-builder.Services.AddScoped<IGradeService, GradeService>();
-builder.Services.AddScoped<IGradeRepository, GradeRepository>();
-builder.Services.AddScoped<IScoresService, ScoresService>();
-builder.Services.AddScoped<IScoreRepository, ScoreRepository>();
-builder.Services.AddScoped<ISemesterSummariesService, SemesterSummariesService >();
-builder.Services.AddScoped<ISemesterSummariesRepository, SemesterSummariesRepository>();
 builder.Services.AddScoped<ISubjectService, SubjectService>();
 builder.Services.AddScoped<ISubjectRepository, SubjectRepository>();
-builder.Services.AddScoped<ISubjectSummariesService, SubjectSummariesService>();
-builder.Services.AddScoped<ISubjectSummariesRepository, SubjectSummariesRepository>();
-builder.Services.AddScoped<ITeachingAssignmentService, TeachingAssignmentService>();
-builder.Services.AddScoped<ITeachingAssignmentRepository, TeachingAssignmentRepository>();
+builder.Services.AddScoped<IClassService, ClassService>();
+builder.Services.AddScoped<IClassRepository, ClassRepository>();
+builder.Services.AddScoped<IScoreRepository, ScoreRepository>();
+builder.Services.AddScoped<IScoreService, ScoreService>();
+builder.Services.AddScoped<ISemesterRepository, SemesterRepository>();
+builder.Services.AddScoped<ISemesterService, SemesterService>();
+builder.Services.AddScoped<IGradeRepository, GradeRepository>();
+builder.Services.AddScoped<IGradeService, GradeService>();
+
 
 
 // Add services to the container.

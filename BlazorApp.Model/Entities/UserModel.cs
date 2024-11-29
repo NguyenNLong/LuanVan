@@ -13,9 +13,10 @@ namespace BlazorApp.Model.Entities
             UserRoles = new List<UserRoleModel>();
         }
         public int ID { get; set; }
-        public string Username { get; set; }
-        public string Password { get; set; }
-        public bool IsLock { get; set; } = false;
+        public string Username { get; set; } = string.Empty;
+        public string Password { get; set; } = string.Empty;
+
+        public bool IsLocked { get; set; } = false;
 
 
         public virtual ICollection<UserRoleModel> UserRoles { get; set; }

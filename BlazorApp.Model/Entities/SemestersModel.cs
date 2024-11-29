@@ -6,16 +6,14 @@ using System.Threading.Tasks;
 
 namespace BlazorApp.Model.Entities
 {
-    public class ClassModel
+    public class SemestersModel
     {
         public int ID { get; set; }
-        public string ClassName { get; set; } = string.Empty;
-        public int GradeID { get; set; }
-        public int? HomeroomTeacherID { get; set; }
+        public string SemesterName { get; set; } = string.Empty;
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+
         public int SchoolYearID { get; set; } // Khóa ngoại
-       
         public SchoolYearModel SchoolYear { get; set; } // Navigation property
-        public GradeModel Grade { get; set; } = null!;
-        public TeachersModel? HomeroomTeacher { get; set; }
     }
 }

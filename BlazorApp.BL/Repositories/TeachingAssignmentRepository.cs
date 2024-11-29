@@ -1,4 +1,4 @@
-﻿using BlazorApp.Database.Data;
+﻿/*using BlazorApp.Database.Data;
 using BlazorApp.Model.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -11,19 +11,19 @@ namespace BlazorApp.BL.Repositories
 {
     public interface ITeachingAssignmentRepository
     {
-        Task<List<TeachingAssignmentModel>> GetTeachingAssignments();                            // Lấy danh sách phân công giảng dạy
-        Task<TeachingAssignmentModel> GetTeachingAssignment(int id);                             // Lấy phân công theo ID
-        Task<TeachingAssignmentModel> CreateTeachingAssignment(TeachingAssignmentModel assignment); // Tạo mới phân công giảng dạy
-        Task UpdateTeachingAssignment(TeachingAssignmentModel assignment);                       // Cập nhật phân công giảng dạy
+        Task<List<SchoolYearModel>> GetTeachingAssignments();                            // Lấy danh sách phân công giảng dạy
+        Task<SchoolYearModel> GetTeachingAssignment(int id);                             // Lấy phân công theo ID
+        Task<SchoolYearModel> CreateTeachingAssignment(SchoolYearModel assignment); // Tạo mới phân công giảng dạy
+        Task UpdateTeachingAssignment(SchoolYearModel assignment);                       // Cập nhật phân công giảng dạy
         Task<bool> TeachingAssignmentExists(int id);                                             // Kiểm tra phân công có tồn tại không
         Task DeleteTeachingAssignment(int id);                                                   // Xóa phân công giảng dạy
     }
 
     public class TeachingAssignmentRepository(AppDbContext dbContext) : ITeachingAssignmentRepository
     {
-       
 
-        public Task<List<TeachingAssignmentModel>> GetTeachingAssignments()
+
+        public Task<List<SchoolYearModel>> GetTeachingAssignments()
         {
             return dbContext.TeachingAssignments
                              .Include(ta => ta.Teacher)
@@ -33,7 +33,7 @@ namespace BlazorApp.BL.Repositories
                              .ToListAsync();
         }
 
-        public Task<TeachingAssignmentModel> GetTeachingAssignment(int id)
+        public Task<SchoolYearModel> GetTeachingAssignment(int id)
         {
             return dbContext.TeachingAssignments
                              .Include(ta => ta.Teacher)
@@ -43,14 +43,14 @@ namespace BlazorApp.BL.Repositories
                              .FirstOrDefaultAsync(ta => ta.ID == id);
         }
 
-        public async Task<TeachingAssignmentModel> CreateTeachingAssignment(TeachingAssignmentModel assignment)
+        public async Task<SchoolYearModel> CreateTeachingAssignment(SchoolYearModel assignment)
         {
             await dbContext.TeachingAssignments.AddAsync(assignment);
             await dbContext.SaveChangesAsync();
             return assignment;
         }
 
-        public async Task UpdateTeachingAssignment(TeachingAssignmentModel assignment)
+        public async Task UpdateTeachingAssignment(SchoolYearModel assignment)
         {
             dbContext.Entry(assignment).State = EntityState.Modified;
             await dbContext.SaveChangesAsync();
@@ -72,3 +72,4 @@ namespace BlazorApp.BL.Repositories
         }
     }
 }
+*/

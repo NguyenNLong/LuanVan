@@ -1,39 +1,60 @@
 ﻿@page "/updatestudent/{Id:int}"
 @using BlazorApp.Model.Entities
-@using Microsoft.AspNetCore.Authorization
-@using Microsoft.AspNetCore.Components.Authorization
+@inject NavigationManager Navigation
 
-<h3>Cập nhật học sinh</h3>
-<EditForm Model="Student" OnValidSubmit="Submit">
-	<div class="container">
-		<div class="row mb-3">
-			<div class="col-md-6">
-				<label> Tên Học Sinh</label>
-				<InputText class="form-control" @bind-Value="Student.StudentName" />
-				<ValidationMessage For="() => Student.StudentName" />
-			</div>
-			<div class="col-md-6">
-				<label>Ngày sinh </label>
-				<InputDate class="form-control" @bind-Value="Student.DateOfBirth" />
-				<ValidationMessage For="() => Student.DateOfBirth" />
-			</div>
-			<div class="col-md-6">
-				<label>Số điện thoại </label>
-				<InputNumber class="form-control" @bind-Value="Student.PhoneNumber" />
-				<ValidationMessage For="() => Student.PhoneNumber" />
-			</div>
-			<div class="col-md-6">
-				<label>Địa Chỉ </label>
-				<InputText class="form-control" @bind-Value="Student.Address" />
-				<ValidationMessage For="() => Student.Address" />
-			</div>
-			<div class="col-md-6">
-				<label>CCCD </label>
-				<InputText class="form-control" @bind-Value="Student.IdentityNumber" />
-				<ValidationMessage For="() => Student.IdentityNumber" />
-			</div>
-		</div>
-		<button class="btn btn-primary" type="submit">Save</button>
-		<a class="btn btn-secondary" href="/">Trở về</a>
-	</div>
-</EditForm>
+@using Microsoft.AspNetCore.Components
+
+<h3>Cập nhật học sinh</h3>
+
+@if (Student == null)
+{
+    <p>Đang Tải...</p>
+}
+else
+{
+    <EditForm Model="Student" OnValidSubmit="Submit">
+        <DataAnnotationsValidator />
+        <div class="container">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label>Tên Học Sinh</label>
+                    <InputText class="form-control" @bind-Value="Student.StudentName" />
+                    <ValidationMessage For="() => Student.StudentName" />
+                </div>
+                <div class="col-md-6">
+                    <label>Ngày Sinh</label>
+                    <InputDate class="form-control" @bind-Value="Student.DateOfBirth" />
+                    <ValidationMessage For="() => Student.DateOfBirth" />
+                </div>
+                <div class="col-md-6">
+                    <label>Số Điện Thoại</label>
+                    <InputText class="form-control" @bind-Value="Student.SPhoneNumber" />
+                    <ValidationMessage For="() => Student.SPhoneNumber" />
+                </div>
+                <div class="col-md-6">
+                    <label>Địa Chỉ</label>
+                    <InputText class="form-control" @bind-Value="Student.SAddress" />
+                    <ValidationMessage For="() => Student.SAddress" />
+                </div>
+                <div class="col-md-6">
+                    <label>CCCD</label>
+                    <InputText class="form-control" @bind-Value="Student.SIdentityNumber" />
+                    <ValidationMessage For="() => Student.SIdentityNumber" />
+                </div>
+                <div class="col-md-6">
+                    <label>Email</label>
+                    <InputText class="form-control" @bind-Value="Student.SEmail" />
+                    <ValidationMessage For="() => Student.SEmail" />
+                </div>
+                <div class="col-md-6">
+                    <label>Trạng Thái</label>
+                    <InputText class="form-control" @bind-Value="Student.StatusStudent" />
+                    <ValidationMessage For="() => Student.StatusStudent" />
+                </div>
+            </div>
+            <button class="btn btn-primary" type="submit">Lưu</button>
+            <a class="btn btn-secondary" href="/">Trở về</a>
+        </div>
+    </EditForm>
+}
+

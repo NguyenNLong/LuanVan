@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace BlazorApp.Database.Data
 {
-    public class AppDbContext: DbContext
+    public class AppDbContext : DbContext
     {
-        public AppDbContext(DbContextOptions<AppDbContext> options): base(options)
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
             Database.EnsureCreated();
         }
@@ -25,11 +25,12 @@ namespace BlazorApp.Database.Data
         public DbSet<SubjectModel> Subjects { get; set; }
         public DbSet<GradeModel> Grades { get; set; }
         public DbSet<ScoresModel> Scores { get; set; }
-        public DbSet<SemesterSummariesModel> SemesterSummaries { get; set; }
-        public DbSet<SubjectSummariesModel> SubjectSummaries { get; set; }
         public DbSet<TeachingAssignmentModel> TeachingAssignments { get; set; }
-
-
+        public DbSet<ConductModel> Conducts { get; set; }
+        public DbSet<NotificationModel> Notifications { get; set; }
+        public DbSet<SchoolYearModel> SchoolYears { get; set; }
+        public DbSet<AnnualScoreModel> AnnualScores { get; set; }
+        public DbSet<SemestersModel> Semesters { get; set; }
 
     }
 }

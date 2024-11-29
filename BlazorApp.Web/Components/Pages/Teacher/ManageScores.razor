@@ -1,0 +1,138 @@
+﻿@page "/scoreform"
+
+@using BlazorApp.BL.Services
+@using BlazorApp.Model.Entities
+@using BlazorApp.Model.Models.Others
+
+@inject NavigationManager Navigation
+
+<h3>Nhập Điểm</h3>
+
+<EditForm Model="score" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label for="StudentID">Mã Học Sinh</label>
+        <InputNumber id="StudentID" class="form-control" @bind-Value="score.StudentID" />
+    </div>
+
+    <div class="form-group">
+        <label for="SubjectID">Mã Môn Học</label>
+        <InputNumber id="SubjectID" class="form-control" @bind-Value="score.SubjectID" />
+    </div>
+
+    <div class="form-group">
+        <label for="ClassID">Mã Lớp</label>
+        <InputNumber id="ClassID" class="form-control" @bind-Value="score.ClassID" />
+    </div>
+
+    <div class="form-group">
+        <label for="SemesterID">Mã Học Kỳ</label>
+        <InputNumber id="SemesterID" class="form-control" @bind-Value="score.SemesterID" />
+    </div>
+
+    <div class="form-group">
+        <label for="OralExam">Điểm Kiểm Tra Miệng</label>
+        <InputNumber id="OralExam" class="form-control" @bind-Value="score.OralExam" />
+    </div>
+
+    <div class="form-group">
+        <label for="FifteenMinExam">Điểm Kiểm Tra 15 Phút</label>
+        <InputNumber id="FifteenMinExam" class="form-control" @bind-Value="score.FifteenMinExam" />
+    </div>
+
+    <div class="form-group">
+        <label for="OnePeriodExam">Điểm Kiểm Tra 1 Tiết</label>
+        <InputNumber id="OnePeriodExam" class="form-control" @bind-Value="score.OnePeriodExam" />
+    </div>
+
+    <div class="form-group">
+        <label for="MidtermExam">Điểm Thi Giữa Kỳ</label>
+        <InputNumber id="MidtermExam" class="form-control" @bind-Value="score.MidtermExam" />
+    </div>
+
+    <div class="form-group">
+        <label for="FinalExam">Điểm Thi Cuối Kỳ</label>
+        <InputNumber id="FinalExam" class="form-control" @bind-Value="score.FinalExam" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Lưu Điểm</button>
+</EditForm>
+
+@if (successMessage != null)
+
+{
+    <div class="alert alert-success mt-3">
+        @successMessage
+    </div>
+}
+
+@if (errorMessage != null)
+
+{
+    <div class="alert alert-danger mt-3">
+        @errorMessage
+    </div>
+}
+
+@code {
+    [Inject]
+
+    public ApiClient ApiClient { get; set; }
+
+    [Inject]
+    private IToastService ToastService { get; set; }
+
+
+
+    private ScoresModel score = new ScoresModel();
+
+    private string successMessage;
+
+    private string errorMessage;
+
+
+
+    private async Task HandleValidSubmit()
+
+    {
+
+        try
+
+        {
+
+            var result = await ApiClient.PostAsync<BaseResponseModel, ScoresModel>("/api/Scores/addscore", score);
+
+
+
+
+
+
+
+            if (result != null && result.Success)
+            {
+
+                ToastService.ShowSuccess("Cập nhật điểm thành công");
+
+            }
+
+
+
+            
+            Navigation.NavigateTo("/"); // Redirect after successful save
+
+        }
+
+        catch (Exception ex)
+
+        {
+
+            errorMessage = $"Lỗi: {ex.Message}";
+
+            successMessage = null;
+
+        }
+
+    }
+}

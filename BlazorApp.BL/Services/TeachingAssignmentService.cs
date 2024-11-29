@@ -1,4 +1,4 @@
-﻿using BlazorApp.BL.Repositories;
+﻿/*using BlazorApp.BL.Repositories;
 using BlazorApp.Model.Entities;
 using System;
 using System.Collections.Generic;
@@ -10,51 +10,46 @@ namespace BlazorApp.BL.Services
 {
     public interface ITeachingAssignmentService
     {
-        Task<List<TeachingAssignmentModel>> GetTeachingAssignments();                      // Lấy danh sách phân công giảng dạy
-        Task<TeachingAssignmentModel> GetTeachingAssignment(int id);                       // Lấy phân công theo ID
-        Task UpdateTeachingAssignment(TeachingAssignmentModel assignment);                 // Cập nhật phân công giảng dạy
-        Task<TeachingAssignmentModel> CreateTeachingAssignment(TeachingAssignmentModel assignment); // Tạo mới phân công giảng dạy
+        Task<List<SchoolYearModel>> GetTeachingAssignments();                      // Lấy danh sách phân công giảng dạy
+        Task<SchoolYearModel> GetTeachingAssignment(int id);                       // Lấy phân công theo ID
+        Task UpdateTeachingAssignment(SchoolYearModel assignment);                 // Cập nhật phân công giảng dạy
+        Task<SchoolYearModel> CreateTeachingAssignment(SchoolYearModel assignment); // Tạo mới phân công giảng dạy
         Task<bool> TeachingAssignmentExists(int id);                                       // Kiểm tra phân công có tồn tại không
         Task DeleteTeachingAssignment(int id);                                             // Xóa phân công giảng dạy
     }
 
-    public class TeachingAssignmentService : ITeachingAssignmentService
+    public class TeachingAssignmentService(ITeachingAssignmentRepository teachingAssignmentRepository) : ITeachingAssignmentService
     {
-        private readonly ITeachingAssignmentRepository _teachingAssignmentRepository;
-
-        public TeachingAssignmentService(ITeachingAssignmentRepository teachingAssignmentRepository)
+        
+        public Task<List<SchoolYearModel>> GetTeachingAssignments()
         {
-            _teachingAssignmentRepository = teachingAssignmentRepository;
+            return teachingAssignmentRepository.GetTeachingAssignments();
         }
 
-        public Task<List<TeachingAssignmentModel>> GetTeachingAssignments()
+        public Task<SchoolYearModel> GetTeachingAssignment(int id)
         {
-            return _teachingAssignmentRepository.GetTeachingAssignments();
+            return teachingAssignmentRepository.GetTeachingAssignment(id);
         }
 
-        public Task<TeachingAssignmentModel> GetTeachingAssignment(int id)
+        public Task UpdateTeachingAssignment(SchoolYearModel assignment)
         {
-            return _teachingAssignmentRepository.GetTeachingAssignment(id);
+            return teachingAssignmentRepository.UpdateTeachingAssignment(assignment);
         }
 
-        public Task UpdateTeachingAssignment(TeachingAssignmentModel assignment)
+        public Task<SchoolYearModel> CreateTeachingAssignment(SchoolYearModel assignment)
         {
-            return _teachingAssignmentRepository.UpdateTeachingAssignment(assignment);
-        }
-
-        public Task<TeachingAssignmentModel> CreateTeachingAssignment(TeachingAssignmentModel assignment)
-        {
-            return _teachingAssignmentRepository.CreateTeachingAssignment(assignment);
+            return teachingAssignmentRepository.CreateTeachingAssignment(assignment);
         }
 
         public Task<bool> TeachingAssignmentExists(int id)
         {
-            return _teachingAssignmentRepository.TeachingAssignmentExists(id);
+            return teachingAssignmentRepository.TeachingAssignmentExists(id);
         }
 
         public Task DeleteTeachingAssignment(int id)
         {
-            return _teachingAssignmentRepository.DeleteTeachingAssignment(id);
+            return teachingAssignmentRepository.DeleteTeachingAssignment(id);
         }
     }
 }
+*/

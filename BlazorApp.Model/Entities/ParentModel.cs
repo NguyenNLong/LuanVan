@@ -8,15 +8,14 @@ namespace BlazorApp.Model.Entities
 {
     public class ParentModel 
     {
-        public int ID { get; set; }
+		public int ID { get; set; }
+		public int UserID { get; set; }
         public string ParentName { get; set; }
-        public int PhoneNumber { get; set; }
-        public string Address { get; set; }
-
-        public int StudentID { get; set; }
-        public int UserID { get; set; }
-
-        public virtual ICollection<StudentsModel> Students { get; set; } = new List<StudentsModel>();
-        public virtual UserModel User { get; set; }
-    }
+        public string PAddress { get; set; }
+        public string PPhoneNumber { get; set; }
+        public string PIdentityNumber { get; set; }
+        public string PEmail { get; set; }
+        public DateOnly DateOfBirth { get; set; }
+        public UserModel User { get; set; } // Quan hệ 1-1 với User
+	}
 }

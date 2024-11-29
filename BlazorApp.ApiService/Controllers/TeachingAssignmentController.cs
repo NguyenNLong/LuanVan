@@ -1,4 +1,4 @@
-﻿using BlazorApp.BL.Services;
+﻿/*using BlazorApp.BL.Services;
 using BlazorApp.Model.Entities;
 using BlazorApp.Model.Models.Others;
 using Microsoft.AspNetCore.Mvc;
@@ -36,14 +36,14 @@ namespace BlazorApp.ApiService.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<BaseResponseModel>> CreateTeachingAssignment(TeachingAssignmentModel assignment)
+        public async Task<ActionResult<BaseResponseModel>> CreateTeachingAssignment(SchoolYearModel assignment)
         {
             var createdAssignment = await _teachingAssignmentService.CreateTeachingAssignment(assignment);
             return Ok(new BaseResponseModel { Success = true, Data = createdAssignment });
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateTeachingAssignment(int id, TeachingAssignmentModel assignment)
+        public async Task<IActionResult> UpdateTeachingAssignment(int id, SchoolYearModel assignment)
         {
             if (id != assignment.ID || !await _teachingAssignmentService.TeachingAssignmentExists(id))
             {
@@ -67,3 +67,4 @@ namespace BlazorApp.ApiService.Controllers
         }
     }
 }
+*/

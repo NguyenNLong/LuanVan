@@ -8,7 +8,7 @@
 
 @if (StudentsModel == null)
 {
-    <p>Loading ...</p>
+    <p>Đang Tải ...</p>
 }
 else
 {
@@ -28,9 +28,9 @@ else
                 <tr>
                     <td>@students.StudentName</td>
                     <td>@students.DateOfBirth</td>
-                    <td>@students.PhoneNumber</td>
-                    <td>@students.Address</td>
-                    <td>@students.IdentityNumber</td>
+                    <td>@students.SPhoneNumber</td>
+                    <td>@students.SAddress</td>
+                    <td>@students.SIdentityNumber</td>
                     <td>
                         <a class="btn btn-secondary" href="/updatestudent/@students.ID">Cập Nhật</a>
                         <AuthorizeView Roles="Admin">
@@ -50,8 +50,8 @@ else
             Bạn thật sự muốn xóa học sinh này?
         </Body>
         <Footer>
-            <button type="button" class="btn btn-primary" style="width:80px" @onclick="HandleDelete">Yes</button>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="() => Modal.Close()">Cancel</button>
+            <button type="button" class="btn btn-primary" style="width:80px" @onclick="HandleDelete">Có</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="() => Modal.Close()">Trở Lại</button>
         </Footer>
     </AppModal>
 }

@@ -6,22 +6,26 @@ using System.Threading.Tasks;
 
 namespace BlazorApp.Model.Entities
 {
-    public class StudentsModel 
-    {
-        public int ID { get; set; }
-        public string StudentName { get; set; }
-        public DateOnly DateOfBirth { get; set; }
-        public int PhoneNumber { get; set; }
-        public string Address { get; set; }
-        public string? IdentityNumber { get; set; }
+	public class StudentsModel
+	{
+		public int ID { get; set; }
+		public int UsersID { get; set; }
+		public int ClassesID { get; set; } // Lớp trong năm học hiện tại
+		public int? ParentsID { get; set; }
 
-        public int ClassID { get; set; }
-        public int ParentID { get; set; }
-        public int UserID { get; set; }
+		public string StudentName { get; set; }
+        public string SAddress { get; set; }
+        public string SPhoneNumber { get; set; }
+        public string SIdentityNumber { get; set; }
+		public string SEmail {  get; set; }
+		public DateOnly DateOfBirth { get; set; }
 
+        public string ParentContactInfo { get; set; } // Thông tin liên hệ phụ huynh
+		public string StatusStudent { get; set; } // Trạng thái học sinh
 
-        public virtual ICollection<ClassModel> Class { get; set; } = new List<ClassModel>();
-        public virtual ICollection<ParentModel> Parents { get; set; } = new List<ParentModel>();
-        public virtual ICollection<ScoresModel> Grades { get; set; } = new List<ScoresModel>();  // Danh sách điểm của học sinh
-    }
+        // Quan hệ
+        public virtual UserModel Users { get; set; }
+        public virtual ClassModel Classes { get; set; }
+		public virtual ParentModel Parents { get; set; }
+	}
 }

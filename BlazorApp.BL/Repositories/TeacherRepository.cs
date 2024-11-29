@@ -39,7 +39,7 @@ namespace BlazorApp.BL.Repositories
         // Phương thức lấy giáo viên theo UserID
         public Task<TeachersModel> GetTeacherByUserID(int userid)
         {
-            return dbContext.Teachers.FirstOrDefaultAsync(t => t.UserID == userid);
+            return dbContext.Teachers.FirstOrDefaultAsync(t => t.UsersID == userid);
         }
 
         // Phương thức tạo mới giáo viên
