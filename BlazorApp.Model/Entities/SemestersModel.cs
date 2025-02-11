@@ -13,7 +13,7 @@ namespace BlazorApp.Model.Entities
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
 
-        public int SchoolYearID { get; set; } // Khóa ngoại
-        public SchoolYearModel SchoolYear { get; set; } // Navigation property
+        public int SchoolYearID { get; set; }
+        public virtual SchoolYearModel SchoolYear { get; set; } 
     }
 }

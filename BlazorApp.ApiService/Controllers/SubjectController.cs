@@ -7,21 +7,15 @@ namespace BlazorApp.ApiService.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SubjectController : ControllerBase
+    public class SubjectController(ISubjectService subjectService) : ControllerBase
     {
-        private readonly ISubjectService _subjectService;
-
-        // Constructor nhận vào ISubjectService qua dependency injection
-        public SubjectController(ISubjectService subjectService)
-        {
-            _subjectService = subjectService;
-        }
+        
 
         // Lấy danh sách tất cả các môn học
         [HttpGet]
         public async Task<ActionResult<BaseResponseModel>> GetSubjects()
         {
-            var subjects = await _subjectService.GetSubjects();
+            var subjects = await subjectService.GetSubjects();
             return Ok(new BaseResponseModel { Success = true, Data = subjects });
         }
 
@@ -29,7 +23,7 @@ namespace BlazorApp.ApiService.Controllers
         [HttpPost]
         public async Task<ActionResult<BaseResponseModel>> CreateSubject(SubjectModel subjectModel)
         {
-            var createdSubject = await _subjectService.CreateSubject(subjectModel);
+            var createdSubject = await subjectService.CreateSubject(subjectModel);
             return Ok(new BaseResponseModel { Success = true, Data = createdSubject });
         }
 
@@ -37,7 +31,7 @@ namespace BlazorApp.ApiService.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<BaseResponseModel>> GetSubject(int id)
         {
-            var subjectModel = await _subjectService.GetSubject(id);
+            var subjectModel = await subjectService.GetSubject(id);
 
             if (subjectModel == null)
             {
@@ -49,12 +43,12 @@ namespace BlazorApp.ApiService.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateSubject(int id, SubjectModel subjectModel)
         {
-            if (id != subjectModel.ID || !await _subjectService.SubjectExists(id))
+            if (id != subjectModel.ID || !await subjectService.SubjectExists(id))
             {
                 return BadRequest(new BaseResponseModel { Success = false, ErrorMessage = "Yêu cầu không hợp lệ" });
             }
 
-            await _subjectService.UpdateSubject(subjectModel);
+            await subjectService.UpdateSubject(subjectModel);
             return Ok(new BaseResponseModel { Success = true });
         }
 
@@ -62,11 +56,11 @@ namespace BlazorApp.ApiService.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteSubject(int id)
         {
-            if (!await _subjectService.SubjectExists(id))
+            if (!await subjectService.SubjectExists(id))
             {
                 return NotFound(new BaseResponseModel { Success = false, ErrorMessage = "Không tìm thấy môn học" });
             }
-            await _subjectService.DeleteSubject(id);
+            await subjectService.DeleteSubject(id);
             return Ok(new BaseResponseModel { Success = true });
         }
     }

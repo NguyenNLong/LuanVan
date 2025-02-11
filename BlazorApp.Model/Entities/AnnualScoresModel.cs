@@ -13,7 +13,7 @@ namespace BlazorApp.Model.Entities
             public int StudentID { get; set; }
             public int SubjectID { get; set; }
             public int ClassID { get; set; }
-            public string AcademicYear { get; set; }
+            public int SchoolYearID { get; set; }
             public float AverageFirstSemester { get; set; }
             public float AverageSecondSemester { get; set; }
 

@@ -1,0 +1,127 @@
+﻿@page "/enter-scores"
+@using BlazorApp.Model.Entities
+@using BlazorApp.Model.Models.Others
+@using Newtonsoft.Json
+
+
+<h3>Nhập điểm</h3>
+
+<div class="row">
+	<!-- Dropdown chọn nam học -->
+	<div class="col-md-4">
+		<label for="subject">Chọn Năm Học:</label>
+
+		<select @onchange="OnYearChanged">
+			<option value="">Chọn năm học</option>
+			@foreach (var year in Years)
+			{
+				<option value="@year.ID">@year.SchoolYearName</option>
+			}
+		</select>
+	</div>
+
+	<!-- Dropdown chọn học ky -->
+	<div class="col-md-4">
+		<label for="subject">Chọn học kỳ:</label>
+		<select>
+
+			@if (Semesters != null && Semesters.Any())
+			{
+				@foreach (var semester in Semesters)
+
+
+
+				{
+					<option value="@semester.ID">@semester.SemesterName</option>
+				}
+			}
+			else
+			{
+				<option value="">Không có dữ liệu học kỳ</option>
+			}
+		</select>
+	</div>
+</div>
+<div class="row">
+	<!-- Dropdown chọn môn học -->
+	<div class="col-md-4">
+		<label for="subject">Chọn môn học:</label>
+		<select id="subject" class="form-control" @onchange="OnSubjectChange">
+			<option value="">-- Chọn môn học --</option>
+			@foreach (var subject in Subjects)
+			{
+				<option value="@subject.ID">@subject.SubjectName</option>
+			}
+		</select>
+	</div>
+
+	<!-- Dropdown chọn lớp -->
+	<div class="col-md-4">
+		<label for="class">Chọn lớp:</label>
+		<select id="class" class="form-control" @onchange="OnClassChange">
+			<option value="">-- Chọn lớp --</option>
+			@foreach (var cls in Classes)
+			{
+				<option value="@cls.ID">@cls.ClassName</option>
+			}
+		</select>
+	</div>
+</div>
+
+<hr />
+
+<!-- Danh sách học sinh -->
+@if (Students != null && Students.Any())
+
+
+
+{
+	<h5>Danh sách học sinh:</h5>
+	<table class="table table-bordered">
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>Tên học sinh</th>
+				<th>Điểm kiểm tra miệng</th>
+				<th>Điểm 15 phút</th>
+				<th>Điểm 1 tiết</th>
+				<th>Điểm giữa kỳ</th>
+				<th>Điểm cuối kỳ</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var student in Students)
+
+
+
+			{
+				<tr>
+					<td>@student.ID</td>
+					<td>@student.StudentName</td>
+					<td><input type="number" class="form-control" @bind="student.Scores.OralExam" /></td>
+					<td><input type="number" class="form-control" @bind="student.Scores.FifteenMinExam" /></td>
+					<td><input type="number" class="form-control" @bind="student.Scores.OnePeriodExam" /></td>
+					<td><input type="number" class="form-control" @bind="student.Scores.MidtermExam" /></td>
+					<td><input type="number" class="form-control" @bind="student.Scores.FinalExam" /></td>
+				</tr>
+			}
+		</tbody>
+	</table>
+
+	<button class="btn btn-primary" @onclick="SaveScores">Lưu điểm</button>
+}
+
+
+
+else
+
+
+
+{
+	<p>Hãy chọn môn học và lớp để hiển thị danh sách học sinh.</p>
+}
+
+---
+
+
+

@@ -25,7 +25,8 @@ namespace BlazorApp.BL.Services
         public async Task<ScoresModel> AddScoreAsync(ScoresModel score)
         {
             
-            if (score == null || score.StudentID <= 0 || score.SubjectID <= 0)
+            if (score == null || score.StudentID <= 0 || score.SubjectID <= 0 || score.ClassID <= 0
+                || score.SchoolYearID <= 0 || score.SemesterID <= 0)
                 throw new ArgumentException("Invalid score data");
 
             return await scoreRepository.AddScoreAsync(score);

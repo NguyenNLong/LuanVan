@@ -20,15 +20,9 @@ namespace BlazorApp.BL.Repositories
         Task DeleteParent(int id);                               // Xóa phụ huynh
     }
 
-    public class ParentRepository : IParentRepository
+    public class ParentRepository(AppDbContext dbContext) : IParentRepository
     {
-        private readonly AppDbContext dbContext;
-
-        // Constructor nhận vào AppDbContext qua dependency injection
-        public ParentRepository(AppDbContext dbContext)
-        {
-            this.dbContext = dbContext;
-        }
+        
 
         // Phương thức lấy danh sách phụ huynh
         public Task<List<ParentModel>> GetParents()

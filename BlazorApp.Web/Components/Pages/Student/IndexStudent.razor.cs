@@ -13,6 +13,7 @@ namespace BlazorApp.Web.Components.Pages.Student
         public ApiClient ApiClient { get; set; }
         public List<StudentsModel> StudentsModel { get; set; }
         public AppModal Modal { get; set; }
+        public List<ClassModel> Classes { get; set; }
         public int DeleteID { get; set; }
         [Inject]
         private IToastService ToastService { get; set; }
@@ -20,6 +21,11 @@ namespace BlazorApp.Web.Components.Pages.Student
         {
             await base.OnInitializedAsync();
             await LoadStudent();
+            var classRes = await ApiClient.GetFromJsonAsync<BaseResponseModel>("/api/Class");
+            if (classRes != null && classRes.Success)
+            {
+                Classes = JsonConvert.DeserializeObject<List<ClassModel>>(classRes.Data.ToString());
+            }
         }
         protected async Task LoadStudent()
         {

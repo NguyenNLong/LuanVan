@@ -1,4 +1,5 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
+﻿@using Microsoft.AspNetCore.Components.Authorization
+<div class="top-row ps-3 navbar navbar-dark">
 	<div class="container-fluid">
 		<a class="navbar-brand" href="">BlazorApp</a>
 	</div>
@@ -14,21 +15,68 @@
 			</NavLink>
 		</div>
 
-		<div class="nav-item px-3">
-			<NavLink class="nav-link" href="user">
-				<span class="bi bi-list-nested" aria-hidden="true"></span>Tài Khoản Người Dùng
-			</NavLink>
-		</div>
-
+						<AuthorizeView Roles="Admin">
+					<Authorized>
+						<li class="nav-item menu-open">
+							<a class="nav-link">
+								<i class="nav-icon fas fa-user"></i>
+								<p>
+									Quản lý người dùng
+									<i class="fas fa-angle-left right"></i>
+								</p>
+							</a>
+							<ul class="nav-treeview">
+								<li class="nav-item">
+									<NavLink href="user" class="nav-link">
+										<i class="far fa-circle nav-icon"></i>
+										<p>Danh sách người dùng</p>
+									</NavLink>
+								</li>
+								<li class="nav-item">
+									<NavLink href="user/register" class="nav-link">
+										<i class="far fa-circle nav-icon"></i>
+										<p>Đăng ký tài khoản</p>
+									</NavLink>
+								</li>
+							</ul>
+						</li>
+					</Authorized>
+				</AuthorizeView>
 		<div class="nav-item px-3">
 			<NavLink class="nav-link" href="teacher">
-				<span class="bi bi-list-nested" aria-hidden="true"></span> Cán Bộ
+				<span class="bi bi-list-nested" aria-hidden="true"></span> Giáo viên
 			</NavLink>
 		</div>
 
 		<div class="nav-item px-3">
 			<NavLink class="nav-link" href="student">
+				<span class="bi bi-list-nested" aria-hidden="true"></span> Lớp học
+			</NavLink>
+		</div>
+		<div class="nav-item px-3">
+			<NavLink class="nav-link" href="student">
 				<span class="bi bi-list-nested" aria-hidden="true"></span> Học Sinh
+			</NavLink>
+		</div>
+		<div class="nav-item px-3">
+			<NavLink class="nav-link" href="student">
+				<span class="bi bi-list-nested" aria-hidden="true"></span> Môn học
+			</NavLink>
+		</div>
+		<div class="nav-item px-3">
+			<NavLink class="nav-link" href="score">
+				<span class="bi bi-list-nested" aria-hidden="true"></span> Điểm Số
+			</NavLink>
+		</div>
+
+		<div class="nav-item px-3">
+			<NavLink class="nav-link" href="student">
+				<span class="bi bi-list-nested" aria-hidden="true"></span> Năm học, Học kì
+			</NavLink>
+		</div>
+		<div class="nav-item px-3">
+			<NavLink class="nav-link" href="student">
+				<span class="bi bi-list-nested" aria-hidden="true"></span> Thông Báo
 			</NavLink>
 		</div>
 		<div class="nav-item px-3">

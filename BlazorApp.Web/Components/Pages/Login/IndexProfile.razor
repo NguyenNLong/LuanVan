@@ -76,9 +76,12 @@ else if (User.UserRoles.Any(ur => ur.Role.RoleName == "Student"))
                     <td>@Student.StudentName</td>
                 </tr>
                 <tr>
-                    <td>Chọn Lớp</td>
-                    <td>@Student.ClassesID</td>
+                    <td>Lớp</td>
+                    <div>
+                        @Classes.FirstOrDefault(c => c.ID == Student.ClassesID)?.ClassName 
+                    </div>
                 </tr>
+                
                 <tr>
                     <td>Số Điện Thoại</td>
                     <td>@Student.SPhoneNumber</td>

@@ -1,0 +1,201 @@
+﻿@page "/score"
+@using BlazorApp.Model.Entities
+@using BlazorApp.Model.Models.Others
+@using Newtonsoft.Json;
+
+<div>
+	<NavLink href="/enter-scores" class="btn btn-secondary">Nhập điểm</NavLink>
+	<!-- Khu vực chọn năm học -->
+	<div>
+		<h3>Chọn Năm Học</h3>
+		<select @onchange="OnYearChanged">
+			<option value="">Chọn năm học</option>
+			@foreach (var year in Years)
+			{
+				<option value="@year.ID">@year.SchoolYearName</option>
+			}
+		</select>
+	</div>
+	<div>
+		<select @onchange="HandleGradeSelection">
+			<option value="">Chọn khối</option>
+			@foreach (var grade in Grades)
+			{
+				<option value="@grade.ID">@grade.GradeName</option>
+			}
+		</select>
+	</div>
+
+	<div>
+		<select>
+			<option value="">Chọn lớp</option>
+			@foreach (var cls in Classes)
+			{
+				<option value="@cls.ID">@cls.ClassName</option>
+			}
+		</select>
+	</div>
+
+	<!-- Khu vực chọn học kỳ -->
+	<div>
+		<h3>Bảng Điểm</h3>
+		<select @onchange="OnSemesterChanged">
+			<option value="">Chọn học kỳ</option>
+			@if (Semesters != null && Semesters.Any())
+			{
+				@foreach (var semester in Semesters)
+				{
+					<option value="@semester.ID">@semester.SemesterName</option>
+				}
+			}
+			else
+			{
+				<option value="">Không có dữ liệu học kỳ</option>
+			}
+		</select>
+
+		<table>
+			<thead>
+				<tr>
+					<th>Họ Và Tên</th>
+					<th>Tên Môn Học</th>
+					<th>Điểm Môn Học</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var std in Student)
+				{
+					<tr value="@std.ID">@std.StudentName</tr>
+				}
+			</tbody>
+		</table>
+	</div>
+</div>
+
+@code {
+
+	private List<GradeModel> Grades = new();
+	private List<ClassModel> Classes = new();
+	private List<StudentsModel> Student = new();
+	private int SelectedGradeId;
+
+	[Inject]
+	private ApiClient ApiClient { get; set; }
+	public List<SchoolYearModel> Years = new();
+	public List<SemestersModel> Semesters { get; set; } = new List<SemestersModel>();
+
+	public List<SubjectSummaryModel> SubjectSummaries { get; set; } = new List<SubjectSummaryModel>();
+
+	private int SelectedYearId;
+	private int SelectedSemesterId;
+	private int SelectedStudentId;
+	private int SelectedClassId;
+
+	protected override async Task OnInitializedAsync()
+	{
+		var yearRes = await ApiClient.GetFromJsonAsync<BaseResponseModel>("/api/SchoolYear");
+		if (yearRes != null && yearRes.Success)
+		{
+			Years = JsonConvert.DeserializeObject<List<SchoolYearModel>>(yearRes.Data.ToString());
+		}
+
+		// Gọi API để lấy danh sách khối
+
+
+		var gradeRes = await ApiClient.GetFromJsonAsync<BaseResponseModel>("/api/Grade/grades");
+		if (gradeRes != null && gradeRes.Success)
+		{
+			Grades = JsonConvert.DeserializeObject<List<GradeModel>>(gradeRes.Data.ToString());
+		}
+
+		
+
+	}
+
+	private async Task LoadClasses(int gradeId)
+	{
+		try
+		{
+			SelectedGradeId = gradeId; // Cập nhật khối được chọn
+			var classRes = await ApiClient.GetFromJsonAsync<BaseResponseModel>($"api/Class/GetClassesByGradeId/{SelectedGradeId}");
+			if (classRes != null && classRes.Success)
+			{
+				Classes = JsonConvert.DeserializeObject<List<ClassModel>>(classRes.Data.ToString());
+			}
+		}
+		catch (ApiException ex)
+		{
+			// Xử lý lỗi
+			Console.WriteLine($"Lỗi khi tải danh sách lớp: {ex.Message}");
+		}
+	}
+	private async Task HandleGradeSelection(ChangeEventArgs e)
+	{
+
+		if (int.TryParse(e.Value?.ToString(), out var gradeId))
+		{
+			await LoadClasses(gradeId); // Gọi API để tải danh sách lớp
+		}
+	}
+
+
+
+
+	protected async Task OnYearChanged(ChangeEventArgs e)
+	{
+		if (int.TryParse(e.Value.ToString(), out int yearId))
+		{
+			SelectedYearId = yearId;
+
+			// Gọi API để lấy danh sách học kỳ theo năm học
+			var semesterRes = await ApiClient.GetFromJsonAsync<BaseResponseModel>($"api/semester/by-year/{SelectedYearId}");
+			if (semesterRes != null && semesterRes.Success)
+			{
+				Semesters = JsonConvert.DeserializeObject<List<SemestersModel>>(semesterRes.Data.ToString());
+			}
+			else
+			{
+				Semesters = new List<SemestersModel>(); // Đảm bảo Semesters không null
+				Console.WriteLine("Không thể tải danh sách học kỳ theo năm học.");
+			}
+		}
+	}
+
+	protected async Task OnSemesterChanged(ChangeEventArgs e)
+	{
+		if (int.TryParse(e.Value.ToString(), out int semesterId))
+		{
+			SelectedSemesterId = semesterId;
+
+			// Gọi API để lấy bảng điểm của học sinh theo học kỳ
+			var ResSubSumer = await ApiClient.GetFromJsonAsync<BaseResponseModel>($"api/SubjectSummary/student/{SelectedStudentId}/semester/{SelectedSemesterId}");
+			if (ResSubSumer != null && ResSubSumer.Success)
+			{
+				SubjectSummaries = JsonConvert.DeserializeObject<List<SubjectSummaryModel>>(ResSubSumer.Data.ToString());
+			}
+			else
+			{
+				SubjectSummaries = new List<SubjectSummaryModel>(); // Đảm bảo SubjectSummaries không null
+				Console.WriteLine("Không thể tải bảng điểm.");
+			}
+		}
+	}
+
+	private async Task LoadStudent(int classId)
+	{
+		try
+		{
+			SelectedClassId = classId; 
+			var studentRes = await ApiClient.GetFromJsonAsync<BaseResponseModel>($"api/Student/students/by-class/{SelectedClassId}");
+			if (studentRes != null && studentRes.Success)
+			{
+				Classes = JsonConvert.DeserializeObject<List<ClassModel>>(studentRes.Data.ToString());
+			}
+		}
+		catch (ApiException ex)
+		{
+			// Xử lý lỗi
+			Console.WriteLine($"Lỗi khi tải danh sách lớp: {ex.Message}");
+		}
+	}
+}

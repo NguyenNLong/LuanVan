@@ -12,7 +12,5 @@ namespace BlazorApp.Model.Entities
         public string SchoolYearName { get; set; }
         public DateOnly StartDate { get; set; }
         public DateOnly EndDate { get; set; }
-
-        public ICollection<SemestersModel> Semesters { get; set; } // Quan hệ 1-N
     }
 }

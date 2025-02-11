@@ -12,7 +12,7 @@ namespace BlazorApp.BL.Services
     {
         Task<List<ClassModel>> GetClasses();                  // Lấy danh sách Lớp
         Task<ClassModel> GetClass(int id);                   // Lấy Lớp theo ID
-     
+        Task<List<ClassModel>> GetClassesByGrade(int gradeId);
         Task UpdateClass(ClassModel classModel);           // Cập nhật Lớp
         Task<ClassModel> CreateClass(ClassModel classModel); // Tạo Lớp mới
         Task<bool> ClassExists(int id);                        // Kiểm tra Class có tồn tại không
@@ -47,7 +47,11 @@ namespace BlazorApp.BL.Services
             return classRepository.GetClasses();
         }
 
-       
+        public Task<List<ClassModel>> GetClassesByGrade(int gradeId)
+        {
+            return classRepository.GetClassesByGrade(gradeId);
+        }
+
         public Task UpdateClass(ClassModel classModel)
         {
             return classRepository.UpdateClass(classModel);

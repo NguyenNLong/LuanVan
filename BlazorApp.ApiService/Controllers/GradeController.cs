@@ -9,9 +9,9 @@ namespace BlazorApp.ApiService.Controllers
     [ApiController]
     public class GradeController(IGradeService gradeService) : ControllerBase
     {
-        
 
-        [HttpGet]
+
+        [HttpGet("grades")]
         public async Task<ActionResult<BaseResponseModel>> GetGrades()
         {
             var grades = await gradeService.GetGrades();

@@ -12,14 +12,15 @@ namespace BlazorApp.Model.Entities
         public int TeacherID { get; set; }
         public int SubjectID { get; set; }
         public int ClassID { get; set; }
+        public int SchoolYearID { get; set; }
         public int SemesterID { get; set; }
-        /*public int StudentID { get; set; }*/
+       
 
-        // Navigation properties
-        /*public virtual ICollection<StudentsModel> Students { get; set; }*/
+
         public TeachersModel Teacher { get; set; } = null!;
         public SubjectModel Subject { get; set; } = null!;
         public ClassModel Class { get; set; } = null!;
-        public SemestersModel Semester { get; set; } = null!;
+        public SchoolYearModel SchoolYear { get; set; }
+        public SemestersModel Semesters { get; set; }
     }
 }

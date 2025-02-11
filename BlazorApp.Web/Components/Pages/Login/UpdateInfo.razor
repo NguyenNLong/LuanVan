@@ -94,7 +94,7 @@ else if (User.UserRoles.Any(ur => ur.Role.RoleName == "Student"))
                             <option value="@classes.ID">@classes.ClassName</option>
                         }
                     </InputSelect>
-                    <ValidationMessage For="() => Student.StudentName" />
+                    <ValidationMessage For="() => Student.ClassesID" />
                 </div>
                 <div class="col-md-6">
                     <label>Số Điện Thoại</label>

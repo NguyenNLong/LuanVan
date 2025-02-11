@@ -91,7 +91,12 @@ builder.Services.AddScoped<ISemesterRepository, SemesterRepository>();
 builder.Services.AddScoped<ISemesterService, SemesterService>();
 builder.Services.AddScoped<IGradeRepository, GradeRepository>();
 builder.Services.AddScoped<IGradeService, GradeService>();
-
+builder.Services.AddScoped<ISubjectSummaryRepository, SubjectSummaryRepository>();
+builder.Services.AddScoped<ISubjectSummaryService, SubjectSummaryService>();
+builder.Services.AddScoped<ISchoolYearRepository, SchoolYearRepository>();
+builder.Services.AddScoped<ISchoolYearService, SchoolYearService>();
+builder.Services.AddScoped<ITeachingAssignmentRepository, TeachingAssignmentRepository>();
+builder.Services.AddScoped<ITeachingAssignmentService, TeachingAssignmentService>();
 
 
 // Add services to the container.

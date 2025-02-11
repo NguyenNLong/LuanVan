@@ -10,10 +10,10 @@ namespace BlazorApp.ApiService.Controllers
     public class StudentController(IStudentService studentService) : ControllerBase
     {
         [HttpGet]
-        public async Task<ActionResult<BaseResponseModel>> GetTeachers()
+        public async Task<ActionResult<BaseResponseModel>> GetStudents()
         {
-            var teachers = await studentService.GetStudents();
-            return Ok(new BaseResponseModel { Success = true, Data = teachers });
+            var students = await studentService.GetStudents();
+            return Ok(new BaseResponseModel { Success = true, Data = students });
         }
 
         [HttpPost]
@@ -45,8 +45,15 @@ namespace BlazorApp.ApiService.Controllers
 			}
 			return Ok(new BaseResponseModel { Success = true, Data = studentModel });
 		}
+        [HttpGet("students/by-class/{classId}")]
+        public async Task<ActionResult<BaseResponseModel>> GetStudentsByClass(int classId)
+        {
+            var students = await studentService.GetStudentsByClass(classId);
+            return Ok(new BaseResponseModel { Success = true, Data = students });
+        }
 
-		[HttpPut("{id}")]
+
+        [HttpPut("{id}")]
         public async Task<IActionResult> UpdateStudent(int id, StudentsModel studentsModel)
         {
             if (id != studentsModel.ID || !await studentService.StudentExists(id))

@@ -13,7 +13,8 @@ namespace BlazorApp.BL.Repositories
     {
         Task<List<ClassModel>> GetClasses();                  // Lấy danh sách giáo viên
         Task<ClassModel> GetClass(int id);                   // Lấy giáo viên theo ID
-        
+        Task<List<ClassModel>> GetClassesByGrade(int gradeId);                   // Lấy giáo viên theo ID
+
         Task UpdateClass(ClassModel classModel);           // Cập nhật giáo viên
         Task<ClassModel> CreateClass(ClassModel classModel); // Tạo giáo viên mới
         Task<bool> ClassExists(int id);                        // Kiểm tra giáo viên có tồn tại không
@@ -52,7 +53,14 @@ namespace BlazorApp.BL.Repositories
         {
             return dbContext.Classes.ToListAsync();
         }
-        
+
+        public Task<List<ClassModel>> GetClassesByGrade(int gradeId)
+        {
+            return dbContext.Classes
+                            .Where(t => t.GradeID == gradeId)
+                            .ToListAsync();
+        }
+
         public async Task UpdateClass(ClassModel classModel)
         {
             dbContext.Entry(classModel).State = EntityState.Modified;

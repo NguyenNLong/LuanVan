@@ -26,11 +26,11 @@ namespace BlazorApp.Database.Data
         public DbSet<GradeModel> Grades { get; set; }
         public DbSet<ScoresModel> Scores { get; set; }
         public DbSet<TeachingAssignmentModel> TeachingAssignments { get; set; }
-        public DbSet<ConductModel> Conducts { get; set; }
         public DbSet<NotificationModel> Notifications { get; set; }
         public DbSet<SchoolYearModel> SchoolYears { get; set; }
         public DbSet<AnnualScoreModel> AnnualScores { get; set; }
         public DbSet<SemestersModel> Semesters { get; set; }
-
+        public DbSet<SubjectSummaryModel> SubjectSummaries { get; set; }
+        
     }
 }

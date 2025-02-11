@@ -13,8 +13,9 @@ namespace BlazorApp.BL.Services
         Task<List<StudentsModel>> GetStudents();                // Lấy danh sách học sinh
         Task<StudentsModel> GetStudent(int id);                 // Lấy học sinh theo ID
 		Task<StudentsModel> GetStudentByUserID(int userid);
+        Task<StudentsModel> GetStudentsByClass(int classid);
 
-		Task UpdateStudent(StudentsModel studentModel);         // Cập nhật thông tin học sinh
+        Task UpdateStudent(StudentsModel studentModel);         // Cập nhật thông tin học sinh
         Task<StudentsModel> CreateStudent(StudentsModel studentModel); // Tạo học sinh mới
         Task<bool> StudentExists(int id);                       // Kiểm tra học sinh có tồn tại không
         Task DeleteStudent(int id);                             // Xóa học sinh
@@ -62,6 +63,11 @@ namespace BlazorApp.BL.Services
         public Task DeleteStudent(int id)
         {
             return studentRepository.DeleteStudent(id);
+        }
+
+        public Task<StudentsModel> GetStudentsByClass(int classid)
+        {
+            return studentRepository.GetStudentByUserID(classid);
         }
     }
 }

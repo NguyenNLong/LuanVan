@@ -23,6 +23,17 @@ namespace BlazorApp.ApiService.Controllers
             return Ok(new BaseResponseModel { Success = true, Data = createSemester });
         }
 
+        [HttpGet("by-year/{YearId}")]
+        public async Task<ActionResult<BaseResponseModel>> GetSemestersByYearId(int YearId)
+        {
+            var semesters = await semesterService.GetSemestersByYearId(YearId);
+            return Ok(new BaseResponseModel
+            {
+                Success = true,
+                Data = semesters
+            });
+        }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<BaseResponseModel>> GetSemesterById(int id)
         {

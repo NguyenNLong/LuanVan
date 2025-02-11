@@ -30,7 +30,7 @@ namespace BlazorApp.BL.Repositories
         {
             var scores = await dbContext.Scores
                 .Include(s => s.Subject)
-                .Include(s => s.Class)
+                .Include(s => s.Classes)
                 .Include(s => s.Semester)
                 .Where(s => s.ClassID == classId && s.SubjectID == subjectId && s.SemesterID == semesterId)
                 .ToListAsync();

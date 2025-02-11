@@ -33,31 +33,37 @@ else
             {
                 <tr>
                     <td>@teacher.TeacherName</td>
-                    <td>@teacher.TPhoneNumber</td>
+                    <td>
+                        @(teacher.Gender switch
+                        {
+                            Gender.Male => "Nam",
+                            Gender.Female => "nữ",
+                            _ => "Không xác định"
+                        })
+					</td>
+					<td>
+						@(teacher.Education switch
+						{
+							Education.Master => "Thạc sỹ",
+							Education.Bachelor => "Cử Nhân",
+							_ => "Khác"
+						})
+					</td>
+					<td>@teacher.DateOfBirth</td>
+					<td>@teacher.TAddress</td>
                     <td>@teacher.TEmail</td>
-                    <td>@teacher.TIdentityNumber</td>
-                    <td>@teacher.TAddress</td>
-                    <td>@teacher.Specialization</td>
-                    
                     <td>@teacher.StatusTeacher</td>
-                    <td>@teacher.DateOfBirth</td>
-                    <td>
-                        <select class="form-control" @bind="teacher.Gender">
-                            <option value="Male" @selected="teacher.Gender == 'Male'">Nam</option>
-                            <option value="Female" @selected="teacher.Gender == 'Female'">Nữ</option>
-                        </select>
-                    </td>
-                    <td>
-                        <select class="form-control" @bind="teacher.Education">
-                            <option value="Male" @selected="teacher.Education == 'Master'">Thạc Sỹ</option>
-                            <option value="Female" @selected="teacher.Education == 'Bachelor'">Cử Nhân</option>
-                        </select>
-                    </td>
+                    <td>@teacher.TPhoneNumber</td>                    
+                    <td>@teacher.Specialization</td>
+					<td>@teacher.TIdentityNumber</td>
+                    
+                    
+                    
 
                     <td>
-                        <a class="btn btn-secondary" href="/updateinfo/">Cập Nhật</a>
                         <AuthorizeView Roles="Admin">
                             <Authorized>
+                                <a class="btn btn-secondary" href="/UpdateTeacher/">Cập Nhật</a>
                                 <button class="btn btn-danger" @onclick="()=> { DeleteID = teacher.ID; Modal.Open();}">Xóa</button>
                             </Authorized>
                         </AuthorizeView>

@@ -13,7 +13,7 @@ namespace BlazorApp.BL.Services
         Task<List<SemestersModel>> GetSemester();
 
         Task<SemestersModel> GetSemesterById(int id);
-
+        Task<List<SemestersModel>> GetSemestersByYearId(int YearId);
         Task UpdateSemeter(SemestersModel semesterModel);
         Task<SemestersModel> CreateSemester(SemestersModel semesterModel);
         Task<bool> SemeterExists(int id);
@@ -51,6 +51,10 @@ namespace BlazorApp.BL.Services
         public Task UpdateSemeter(SemestersModel semesterModel)
         {
             return semesterRepository.UpdateSemeter(semesterModel);
+        }
+        public  Task<List<SemestersModel>> GetSemestersByYearId(int YearId)
+        {
+            return  semesterRepository.GetSemestersByYearId(YearId);
         }
     }
 

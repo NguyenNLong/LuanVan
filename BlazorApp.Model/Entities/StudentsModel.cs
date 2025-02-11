@@ -26,6 +26,7 @@ namespace BlazorApp.Model.Entities
         // Quan hệ
         public virtual UserModel Users { get; set; }
         public virtual ClassModel Classes { get; set; }
-		public virtual ParentModel Parents { get; set; }
+		public virtual ICollection<ParentModel> Parents { get; set; }
+		public virtual ScoresModel Scores { get; set; }
 	}
 }

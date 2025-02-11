@@ -13,7 +13,7 @@ namespace BlazorApp.BL.Repositories
     {
         Task<List<SemestersModel>> GetSemester();
         Task<SemestersModel> GetSemesterById(int id);
-
+        Task<List<SemestersModel>> GetSemestersByYearId(int YearId);
         Task UpdateSemeter(SemestersModel semesterModel);
         Task<SemestersModel> CreateSemester(SemestersModel semesterModel);
         Task<bool> SemeterExists(int id);
@@ -57,6 +57,13 @@ namespace BlazorApp.BL.Repositories
         {
             dbContext.Entry(semesterModel).State = EntityState.Modified;
             await dbContext.SaveChangesAsync();
+        }
+
+        public async Task<List<SemestersModel>> GetSemestersByYearId(int YearId)
+        {
+            return await dbContext.Semesters
+                .Where(s => s.SchoolYearID == YearId)
+                .ToListAsync();
         }
     }
 }
